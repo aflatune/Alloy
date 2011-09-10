@@ -1,0 +1,158 @@
+[Alloy is not ready for prime time yet]
+
+Setup
+=====
+1. Create a new Titanium mobile project.
+2. From project root 
+    git init .
+    mkdir Resources/lib
+    git submodule add git@github.com:aflatune/Alloy.git Resources/lib/alloy
+  
+    cd Resources
+    mkdir db
+    mkdir db/migrations
+    touch db/migrations/empty.migration
+  
+    mkdir app
+    mkdir app/models
+    mkdir app/rjss
+    mkdir app/view_models
+    mkdir app/views
+  
+  
+Now create views and view models in respective directories under app.
+
+- Vector View model example (app/view_models/profiles.js)
+
+    App.ProfilesViewModel = new JS.Class(Alloy.VectorViewModel, {
+      initialize: function(view) {
+        this.callSuper(view);
+        this.name = 'profiles';
+        this.httpVerb = 'POST';
+      },
+
+      url: function(params) {
+        return App.SessionViewModel.APIBaseUrl + 'search';
+      },
+  
+      setRequestHeaders: function(xhr, params) {
+        xhr.setRequestHeader('user_withphoto', 'true');
+        xhr.setRequestHeader('featured', 'true');
+        this.callSuper(xhr, params);
+      }
+    });
+
+
+- View example (app/view/profile.js)
+
+    App.ProfilesView = new JS.Class(Alloy.View, {
+      initialize: function() {
+        this.callSuper();
+        this.viewModel = new App.ProfilesViewModel(this);
+      },
+  
+      render: function() {
+        if (this.rendered)
+          return;
+        this.callSuper();
+    
+        var _this = this;
+
+        var profilesTable = new TableView('profileList');
+        profilesTable.style = Titanium.UI.iPhone.TableViewStyle.PLAIN;
+    
+        this.profilesTable = profilesTable;
+        this.view.add(profilesTable);
+      
+        this.viewModel.fetch({type: 'reload'});
+      },
+  
+      dataReady: function(viewModel, data) {
+        this.doRender(data);
+      },
+
+      doRender: function(profiles) {
+        this.renderTableRows(profiles);
+      },
+  
+      renderTableRows: function(profiles) {
+        var data = [];
+        for (var i in profiles) {
+          var row = this.createRow(profiles[i]);
+          data.push(row);
+        }
+    
+        this.profilesTable.setData(data,{animationStyle:Titanium.UI.iPhone.RowAnimationStyle.FADE});
+      },
+  
+      createRow: function(profile, viewModel) {
+        var row = new TableViewRow('profileListRow');
+        row.backgroundColor = '#fff';
+
+        // Thumbnail border
+        var thumbnailBorder = new ImageView('profileListRowThumbnailBorder');
+        thumbnailBorder.image = "/public/images/thumbnail_border.png";
+        row.add(thumbnailBorder);
+    
+        // Thumbnail
+        var thumbnail = new ImageView('profileListRowThumbnail');
+        thumbnail.defaultImage = '/public/images/nophoto_thumb.gif';
+        thumbnail.image = profile.photo_url ? profile.photo_url : thumbnail.defaultImage;
+        row.add(thumbnail);
+    
+        // Name
+        var username = new Label('profileListRowUsername');
+        username.text = Encoder.htmlDecode(profile.username);
+        row.add(username);
+    
+        // Demographics
+        var demographics = new Label('profileListRowDemographics');
+        demographics.text = profile.age + ", " + profile.location;
+        row.add(demographics);
+
+        // Status
+        var status = new Label('profileListRowStatus');
+        status.text = Encoder.htmlDecode(profile.status);
+        row.add(status);
+    
+       return row;
+      },
+  
+      appendRow: function(row, viewModel) {
+        this.profilesTable.appendRow(row, {animationStyle:Titanium.UI.iPhone.RowAnimationStyle.NONE});
+      },
+
+      updateRow: function(i, row, viewModel) {
+        this.profilesTable.updateRow(i, row, {animationStyle:Titanium.UI.iPhone.RowAnimationStyle.RIGHT});   
+      },
+
+      insertRow: function(i, row, viewModel, movingUp) {
+        var animation = movingUp ? Titanium.UI.iPhone.RowAnimationStyle.BOTTOM : Titanium.UI.iPhone.RowAnimationStyle.LEFT;
+        this.profilesTable.insertRowBefore(i, row, {animationStyle:animation});
+      },
+
+      deleteRow: function(i, viewModel, movingUp) {
+        var animation = movingUp ? Titanium.UI.iPhone.RowAnimationStyle.TOP : Titanium.UI.iPhone.RowAnimationStyle.RIGHT;
+        this.profilesTable.deleteRow(i,{animationStyle: animation});
+      },
+  
+      beginUpdate: function() {
+    
+      },
+  
+      endUpdate: function() {
+    
+      }
+    });
+
+- Invoking view example 
+
+    var view = new App.ProfilesView();
+    view.render();
+    view.window.open();
+    
+Thanks
+======
+Alloy includes the following awesome projects
+- Appcelerator-on-rails
+- Appcelerator Redux
