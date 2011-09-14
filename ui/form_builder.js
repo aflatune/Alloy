@@ -44,7 +44,7 @@ Alloy.UI.FormBuilder = new JS.Class({
       textAlign: 'center',
       top: 0
     }));
-    thiscurrentSection().add(row);
+    this.currentSection().add(row);
   },
   
   _addSplitRowLabel: function(row, labelText, height) {

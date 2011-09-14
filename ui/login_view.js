@@ -4,8 +4,8 @@ var used = [Ti.UI.createButton, Ti.UI.createView, Ti.UI.createLabel, Ti.UI.creat
 
 Alloy.UI.LoginView = new JS.Class(Alloy.View, {
   initialize : function() {
-    this.formBuilder = new Alloy.FormBuilder(this.window);
     this.callSuper();
+    this.formBuilder = new Alloy.UI.FormBuilder(this.window);
     
     // Show error on login failure    
     Ti.App.addEventListener('app:login:failed', function(e) {
