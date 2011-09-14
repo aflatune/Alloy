@@ -7,7 +7,6 @@ Ti.include('image_button_bar.js');
 Ti.include('loading_view.js');
 Ti.include('login_view.js');
 
-
 Alloy.UI.focus = function(control) {
   control.addEventListener('setFocus', function() {
     control.focus();

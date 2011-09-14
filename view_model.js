@@ -13,6 +13,7 @@ Alloy.ViewModel = new JS.Class({
     this.currentRequest = null;
     this.cachePolicy = Alloy.ViewModel.CachePolicy.OfflineOnly;
     this.httpVerb = 'GET';
+    this.showLoginViewOn403 = false;
   },
   
   fetch: function(params) {
@@ -89,6 +90,9 @@ Alloy.ViewModel = new JS.Class({
       
       if (data) {
         _this.dataReady(data, params);
+        if (_this.view && _this.view.dataReady)
+          _this.view.dataReady(data, params, _this);
+          
         if (_this.cachePolicy != Alloy.ViewModel.CachePolicy.Disabled) {
           _this.cacheData(url, data);
         }
@@ -149,14 +153,16 @@ Alloy.ViewModel = new JS.Class({
     this.data = data;
   },
   
-  onError: function(response, params) {
-    if (response.status == 403) {
+  onError: function(response) {
+    if (this.view && this.view.onError)
+      this.view.onError(response, this);
+
+    if (this.showLoginViewOn403 && response.status == 403) {
       Ti.App.fireEvent('app:login:show');
     }
     
     // handle network error
     warn(JSON.stringify(response));
-    warn(JSON.stringify(params));
   },
   
   sameObjects: function(obj1, obj2) {

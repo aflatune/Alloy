@@ -36,31 +36,40 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
   },
  
   dataReady: function(data, params) {
-    this.view.beginUpdate();
-
-    // If starting from empty data, repaint the table with new data
-    //if (this.data.length == 0) {
-    //  this.data = data;
-    //  this.view.dataReady(this, this.data);   // repaint table
-    //}
-    // otherwise do diff updates
-    //else {
-    //}
     
-    if (params.type == 'reload') {
-      // Diff apply changes
-      this.diffUpdate(this.data, data, (params.page - 1) * params.rowsPerPage, params.type == 'reload');
+    // The view is interested in all data together
+    if (this.view.dataReady) {
+      this.view.dataReady(data, params);
     }
+    
+    // Or as diff updates and append calls
     else {
-      // Append
-      for (var i = 0; i < data.length; i++) {
-        var newDataItem = data[i];
-        var row = this.view.createRow(newDataItem, this);
-        this.view.appendRow(row, this);
-        this.data.push(newDataItem);
+      this.view.beginUpdate();
+  
+      // If starting from empty data, repaint the table with new data
+      //if (this.data.length == 0) {
+      //  this.data = data;
+      //  this.view.dataReady(this, this.data);   // repaint table
+      //}
+      // otherwise do diff updates
+      //else {
+      //}
+      
+      if (params.type == 'reload') {
+        // Diff apply changes
+        this.diffUpdate(this.data, data, (params.page - 1) * params.rowsPerPage, params.type == 'reload');
       }
+      else {
+        // Append
+        for (var i = 0; i < data.length; i++) {
+          var newDataItem = data[i];
+          var row = this.view.createRow(newDataItem, this);
+          this.view.appendRow(row, this);
+          this.data.push(newDataItem);
+        }
+      }
+      this.view.endUpdate();      
     }
-    this.view.endUpdate();
   },
   
   

@@ -1,0 +1,9 @@
+.loginViewWindow {
+  backgroundColor:'#336699',
+  borderWidth:8,
+  borderColor:'#999',
+  height:400,
+  width:300,
+  borderRadius:10,
+  opacity:0.92
+}

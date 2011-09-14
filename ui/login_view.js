@@ -6,15 +6,22 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
   initialize : function() {
     this.tableData = [];
     this.callSuper();
-    // Partial view
+    //$(this.window).applyStyle('Window', {className: 'loginViewWindow'});;
+    
+    // Show error on login failure    
+    Ti.App.addEventListener('app:login:failed', function(e) {
+      alert("Sorry, try again");
+    });
   },
   
   render : function() {
-
     // Top section
     var emailTextField = this.createTextField(40, null, "Email address", Ti.App.Properties.getString('email'));
+    this.emailTextField = emailTextField;
+    
     var passwordTextField = this.createTextField(40, null, "Password", Ti.App.Properties.getString('password'));
     passwordTextField.passwordMask = true;
+    this.passwordTextField = passwordTextField;
 
     // Bottom section
     this.startNewSection();
@@ -28,20 +35,17 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
       top: 0
     }));
     this.currentSection().add(signupRow);
+
+    var table = new TableView({data:this.tableData, style:Titanium.UI.iPhone.TableViewStyle.GROUPED});
+    this.window.add(table);
+    
     
     // Tableview
-    var tableView = new TableView({
-      top : 0,
-      bottom : 0,
-      minRowHeight : 30,
-      width : '100%',
-      //separatorStyle: 0,
-      style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
-      data: this.tableData
-    });
+    //var tableView = new TableView({
+    //});
 
-    this.window.add(tableView);
-    
+    //this.window.add(tableView);
+
     // Buttons
     var _this = this;
     var cancelButton = new Button({
@@ -56,6 +60,8 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
       title : 'Login'
     });
     this.window.rightNavButton = loginButton;
+    //this.window.add(loginButton);
+    
     loginButton.addEventListener('click', function(e) {
       var email = emailTextField.value.trim();
       var password = passwordTextField.value.trim();
@@ -75,8 +81,8 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
       Ti.App.fireEvent('app:login', {email: email, password: password});
     })
 
-    this.window.modal = true;
-    this.window.title = "Cupidtino";
+    //this.window.modal = true;
+    //this.window.title = "Cupidtino";
 
     /*if(emailTextField.text && emailTextField.text.length > 0)
       Alloy.UI.focus(emailTextField);
@@ -135,22 +141,68 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
   
   startNewSection: function() {
     this.tableData[this.tableData.length] = Ti.UI.createTableViewSection();
+  },
+  
+  reset: function() {
+    this.emailTextField.value = '';
+    this.passwordTextField.value = '';
   }
 });
 
 Alloy.UI.LoginView.instance = null;
 
 Ti.App.addEventListener('app:login:show', function(e) {
+  //setTimeout(function() {
   if (!Alloy.UI.LoginView.instance) {
     Alloy.UI.LoginView.instance = (new Alloy.UI.LoginView());    
     Alloy.UI.LoginView.instance.render();
   }
   var view = Alloy.UI.LoginView.instance;
-  view.window.open();
-});
+  
+  /*var t = Titanium.UI.create2DMatrix();
+  t = t.scale(0);
 
-Ti.App.addEventListener('app:login:failed', function(e) {
-  alert("Sorry, try again");
+  view.window.transform = t;
+
+  // create first transform to go beyond normal size
+  var t1 = Titanium.UI.create2DMatrix();
+  t1 = t1.scale(1.1);
+  var a = Titanium.UI.createAnimation();
+  a.transform = t1;
+  a.duration = 200;
+
+  // when this animation completes, scale to normal size
+  a.addEventListener('complete', function()
+  {
+    var t2 = Titanium.UI.create2DMatrix();
+    t2 = t2.scale(1.0);
+    view.window.animate({transform:t2, duration:200});
+
+  });*/
+
+  // // create a button to close window
+  // var b = Titanium.UI.createButton({
+    // title:'Close',
+    // height:30,
+    // width:150
+  // });
+  // w.add(b);
+  // b.addEventListener('click', function()
+  // {
+    // var t3 = Titanium.UI.create2DMatrix();
+    // t3 = t3.scale(0);
+    // w.close({transform:t3,duration:300});
+  // });
+
+  //w.zIndex = 10000;
+
+  /*setTimeout(function() {
+    //App.tabGroup.activeTab.open(view.window);
+    view.window.open(a);
+  }, 1000);*/
+  
+  view.window.open({modal:true, animated:true, title: "Cupidtino", navBarHidden: false});
+  //}, 5000);
 });
 
 Ti.App.addEventListener('app:login:dismiss', function(e) {
@@ -162,5 +214,5 @@ Ti.App.addEventListener('app:login:dismiss', function(e) {
 
 Ti.App.addEventListener('app:login:succeeded', function(e) {
   if (Alloy.UI.LoginView.instance)
-    Alloy.UI.LoginView.instance.window.close();
+    Alloy.UI.LoginView.instance.window.close({animated:true});
 });
