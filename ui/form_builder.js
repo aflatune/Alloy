@@ -1,6 +1,25 @@
 Alloy.UI.FormBuilder = new JS.Class({
   initialize: function(window) {
     this.window = window;
+
+    this.simpleRowConfig = {
+      control: {
+        left: '4%',
+        width: '96%'
+      }
+    },
+    
+    this.splitRowConfig = {
+      leftControl: {
+        left: '4%',
+        width: '36%'
+      },
+      rigthControl: {
+        left: '4%',
+        width: '56%'
+      }
+    };
+        
     this.tableData = [];
   },
   
@@ -28,33 +47,35 @@ Alloy.UI.FormBuilder = new JS.Class({
     thiscurrentSection().add(row);
   },
   
+  _addSplitRowLabel: function(row, labelText, height) {
+    var label = new Label({
+      top : 0,
+      left : this.splitRowConfig.leftControl.left,
+      width : this.splitRowConfig.leftControl.width,
+      height : height,
+      text : labelText
+    });
+      
+    row.add(label); 
+  },
+  
   createTextField : function(height, labelText, hintText, text, keyboardType, returnKeyType) {
     var row = this.createRow(height);
 
-    var left, width;
+    var textFieldConfig;
 
     if(labelText) {
-      var label = new Label({
-        top : 0,
-        left : '4%',
-        width : '36%',
-        height : height,
-        text : labelText
-      });
-        
-      row.add(label); 
-      left = '40%';
-      width = '56%';
+      this._addSplitRowLabel(row, labelText, height);
+      textFieldConfig = this.splitRowConfig.rightControl;
     }
     else { 
-      left = '4%';
-      width = '96%';
+      textFieldConfig = this.simpleRowConfig.control;
     }
 
     var textField = new TextField({
       top : 4,
-      left : left,
-      width : width,
+      left : textFieldConfig.left,
+      width : textFieldConfig.width,
       height : height - 8,
       borderStyle : Titanium.UI.INPUT_BORDERSTYLE_NONE,
       hintText : hintText,
