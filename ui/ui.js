@@ -1,4 +1,5 @@
 Alloy.UI = {};
+Ti.include('form_builder.js');
 Ti.include('table_view_pull_to_refresh.js');
 Ti.include('table_view_dynamic_scroll.js');
 Ti.include('table_view_delete_row.js');
