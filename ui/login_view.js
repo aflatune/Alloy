@@ -16,14 +16,16 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
   
   render : function() {
     // Top section
-    var emailTextField = this.createTextField(40, null, "Email address", Ti.App.Properties.getString('email'));
+    var emailTextField = this.createTextField(40, null, "Email address", Ti.App.Properties.getString('email'), Titanium.UI.KEYBOARD_EMAIL, Titanium.UI.RETURNKEY_NEXT);
+    emailTextField.suppressReturn = true;
     this.emailTextField = emailTextField;
     
-    var passwordTextField = this.createTextField(40, null, "Password", Ti.App.Properties.getString('password'));
+    var passwordTextField = this.createTextField(40, null, "Password", Ti.App.Properties.getString('password'), Titanium.UI.KEYBOARD_ASCII, Titanium.UI.RETURNKEY_GO);
     passwordTextField.passwordMask = true;
+    passwordTextField.suppressReturn = true;
     this.passwordTextField = passwordTextField;
 
-    // Bottom section
+   // Bottom section
     this.startNewSection();
     var signupRow = this.createRow();
     signupRow.height = 60;
@@ -88,6 +90,14 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
       Alloy.UI.focus(emailTextField);
     else
       Alloy.UI.focus(passwordTextField);*/
+
+    emailTextField.addEventListener('return', function() {
+      passwordTextField.focus();
+    });
+
+    passwordTextField.addEventListener('return', function() {
+      loginButton.fireEvent('click');
+    });
   },
   
   createRow : function(height) {
@@ -96,7 +106,7 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
     });
   },
   
-  createTextField : function(height, labelText, hintText, text) {
+  createTextField : function(height, labelText, hintText, text, keyboardType, returnKeyType) {
     var row = this.createRow(height);
 
     var left, width;
@@ -109,9 +119,14 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
         height : height,
         text : labelText
       });
-      row.add(label); left = '40%', width = '56%';
+        
+      row.add(label); 
+      left = '40%';
+      width = '56%';
     }
-    else { left = '4%', width = '96%';
+    else { 
+      left = '4%';
+      width = '96%';
     }
 
     var textField = new TextField({
@@ -124,6 +139,12 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
       clearButtonMode : Ti.UI.INPUT_BUTTONMODE_ONFOCUS,
       value : text
     });
+
+    if (keyboardType)
+      textField.keyboardType = keyboardType;
+      
+    if (returnKeyType)
+      textField.returnKeyType = returnKeyType;
 
     row.add(textField);
 
