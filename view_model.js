@@ -16,7 +16,18 @@ Alloy.ViewModel = new JS.Class({
     this.showLoginViewOn403 = false;
   },
   
+  block: function() {
+    this.blocked = true;
+  },
+  
+  unblock: function() {
+    this.blocked = false;
+  },
+  
   fetch: function(params) {
+    if (this.blocked)
+      return;
+      
     if (typeof(params) == 'undefined') params = {};
 
     var url = this.url(params);
@@ -92,7 +103,7 @@ Alloy.ViewModel = new JS.Class({
       }
       catch(e) {}
       
-      if (data) {
+      if (data && !_this.blocked) {
         _this.dataReady(data, params);
         if (_this.view && _this.view.dataReady)
           _this.view.dataReady(data, params, _this);
