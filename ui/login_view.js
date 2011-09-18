@@ -31,7 +31,8 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
     var joinButton = this.formBuilder.createButton(60, "Not a member? Join for free.");
 
     // Render the form
-    this.formBuilder.render();
+    var formTable = this.formBuilder.render();
+    formTable.top = 40;
 
     // Nav bar buttons
     var _this = this;

@@ -48,22 +48,25 @@ Alloy.Database = new JS.Class({
   migrate_db: function() {
     var migrations = this.loadMigrations();
 
-    var migration_dir = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, "db", "migrations");
-
-    var files = migration_dir.getDirectoryListing();
-    for (var i = 0; i < files.length; i++) {
-      var file = files[i];
-			var parts = file.split(".");
-			if(parts[1] == 'migration') {
-        var version = parts[0];
-
-				if (!migrations[version])
-				{
-			    Ti.API.info("Running migration... " + version);
-			    Ti.include("/db/migrations/"  + file);
-				}							
-			}
+    try {
+      var migration_dir = Titanium.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, "db", "migrations");
+  
+      var files = migration_dir.getDirectoryListing();
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+  			var parts = file.split(".");
+  			if(parts[1] == 'migration') {
+          var version = parts[0];
+  
+  				if (!migrations[version])
+  				{
+  			    Ti.API.info("Running migration... " + version);
+  			    Ti.include("/db/migrations/"  + file);
+  				}							
+  			}
+      }
     }
+    catch(e) {}
   },
   
   migrate: function(version, sql) {

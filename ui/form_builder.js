@@ -1,3 +1,5 @@
+var used = [Titanium.UI.createSwitch];
+
 Alloy.UI.FormBuilder = new JS.Class({
   initialize: function(window) {
     this.window = window;
@@ -14,8 +16,8 @@ Alloy.UI.FormBuilder = new JS.Class({
         left: '4%',
         width: '36%'
       },
-      rigthControl: {
-        left: '4%',
+      rightControl: {
+        left: '40%',
         width: '56%'
       }
     };
@@ -30,8 +32,9 @@ Alloy.UI.FormBuilder = new JS.Class({
   },
 
   render: function() {
-    var table = new TableView({data:this.tableData, style:Titanium.UI.iPhone.TableViewStyle.GROUPED});
-    this.window.add(table);
+    this.tableView = new TableView({data:this.tableData, style:Titanium.UI.iPhone.TableViewStyle.GROUPED});
+    this.window.add(this.tableView);
+    return this.tableView;
   },
 
   createButton : function(height, title) {
@@ -57,6 +60,7 @@ Alloy.UI.FormBuilder = new JS.Class({
     });
       
     row.add(label); 
+    return label;
   },
   
   createTextField : function(height, labelText, hintText, text, keyboardType, returnKeyType) {
@@ -79,7 +83,7 @@ Alloy.UI.FormBuilder = new JS.Class({
       height : height - 8,
       borderStyle : Titanium.UI.INPUT_BORDERSTYLE_NONE,
       hintText : hintText,
-      clearButtonMode : Ti.UI.INPUT_BUTTONMODE_ONFOCUS,
+      clearButtonMode : Ti.UI.INPUT_BUTTONMODE_ALWAYS,
       value : text
     });
 
@@ -94,6 +98,38 @@ Alloy.UI.FormBuilder = new JS.Class({
     this.currentSection().add(row);
 
     return textField;
+  },
+
+  createSwitch: function(height, label, value) {
+    var row = this.createRow(height);
+    var leftControl = this._addSplitRowLabel(row, label, height);
+    row.add(leftControl);
+    
+    var rightControl = new Switch({
+      right: this.splitRowConfig.leftControl.left,
+      value: value      
+    });
+    row.add(rightControl);
+    this.currentSection().add(row);
+    
+    return ({row:row, leftControl:leftControl, rightControl:rightControl});
+  },
+  
+  createSplitRowLabels : function(height, label1Text, label2Text) {
+    var row = this.createRow(height);
+    var label1 = this._addSplitRowLabel(row, label1Text, height);
+    row.add(label1);
+    
+    var label2 = new Label({
+      left : this.splitRowConfig.rightControl.left,
+      width : this.splitRowConfig.rightControl.width,
+      text : label2Text
+    });
+    row.add(label2);
+
+    this.currentSection().add(row);
+
+    return ({row:row, leftControl:label1, rightControl:label2});
   },
   
   currentSection: function() {
