@@ -9,6 +9,7 @@ Ti.include('loading_view.js');
 Ti.include('login_view.js');
 Ti.include('picker_view.js');
 Ti.include('grid_view.js');
+Ti.include('effects.js');
 
 Alloy.UI.focus = function(control) {
   control.addEventListener('setFocus', function() {
