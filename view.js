@@ -14,8 +14,5 @@ Alloy.View = new JS.Class({
   
   render: function() {
     this.rendered = true;
-  },
-  
-  dataReady: function(data, params) {
   }
 });
