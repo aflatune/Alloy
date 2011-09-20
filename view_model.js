@@ -89,10 +89,10 @@ Alloy.ViewModel = new JS.Class({
       if (!params.async)
         Ti.App.fireEvent('app:hide.loader');
 
-      if(this.status != 200) {
-        this.onerror();
-        return;
-      }
+      //if(this.status >= 400) {
+      //  this.onerror();
+      //  return;
+      //}
       _this.currentRequest = null;
       
       info("xhr Call returned");
@@ -124,10 +124,14 @@ Alloy.ViewModel = new JS.Class({
     
     if (!params.async)
       Ti.App.fireEvent('app:show.loader');
-      
-    xhr.send();
+    
+    this.sendRequest(xhr, params);
   },
 
+  sendRequest: function(xhr, params) {
+    xhr.send();
+  },
+  
   parseData: function(response) {
     return eval('('+response.responseText+')');
   },
