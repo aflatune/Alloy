@@ -39,7 +39,7 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
     
     // The view is interested in all data together
     if (this.view.dataReady) {
-      this.view.dataReady(data, params);
+      this.view.dataReady(data, params, this);
     }
     
     // Or as diff updates and append calls
