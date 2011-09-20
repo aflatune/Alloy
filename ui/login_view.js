@@ -3,8 +3,28 @@
 var used = [Ti.UI.createButton, Ti.UI.createView, Ti.UI.createLabel, Ti.UI.createTextField, Ti.UI.createTableView, Ti.UI.createTableViewRow];
 
 Alloy.UI.LoginView = new JS.Class(Alloy.View, {
+  extend: {
+    config: {
+      color: '#fff',
+      showSignup: true,
+      barColor: '#000',
+      emailTextField: {
+        hint: 'Email address',
+        validate: function(email) {
+          if (!email.isValidEmail()) {
+            Alloy.UI.alert("Please enter a valid email address.", "Wait!");
+            return false;
+          }
+          return true;
+        }
+      }
+    }
+  },
+  
   initialize : function() {
     this.callSuper();
+    this.window.translucent = true;
+    this.window.barColor = Alloy.UI.LoginView.config.barColor;
     this.formBuilder = new Alloy.UI.FormBuilder(this.window);
     
     // Show error on login failure    
@@ -17,19 +37,23 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
     // Top section
     this.formBuilder.startNewSection();
 
-    var emailTextField = this.formBuilder.createTextField(40, null, "Email address", Ti.App.Properties.getString('email'), Titanium.UI.KEYBOARD_EMAIL, Titanium.UI.RETURNKEY_NEXT);
+    var emailTextField = this.formBuilder.createTextField(40, null, Alloy.UI.LoginView.config.emailTextField.hint, Ti.App.Properties.getString('email'), Titanium.UI.KEYBOARD_EMAIL, Titanium.UI.RETURNKEY_NEXT);
     emailTextField.suppressReturn = true;
+    emailTextField.color = Alloy.UI.LoginView.config.color;
     this.emailTextField = emailTextField;
     
     var passwordTextField = this.formBuilder.createTextField(40, null, "Password", Ti.App.Properties.getString('password'), Titanium.UI.KEYBOARD_ASCII, Titanium.UI.RETURNKEY_GO);
     passwordTextField.passwordMask = true;
     passwordTextField.suppressReturn = true;
+    passwordTextField.color = Alloy.UI.LoginView.config.color;
     this.passwordTextField = passwordTextField;
 
     // Bottom section
-    this.formBuilder.startNewSection();
-    var joinButton = this.formBuilder.createButton(60, "Not a member? Join for free.");
-
+    if (Alloy.UI.LoginView.config.showSignup) {
+      this.formBuilder.startNewSection();
+      var joinButton = this.formBuilder.createButton(60, "Not a member? Join for free.");
+    }
+    
     // Render the form
     var formTable = this.formBuilder.render();
     formTable.top = 40;
@@ -55,8 +79,7 @@ Alloy.UI.LoginView = new JS.Class(Alloy.View, {
       var email = emailTextField.value.trim();
       var password = passwordTextField.value.trim();
       
-      if (!email.isValidEmail()) {
-        Alloy.UI.alert("Please enter a valid email address.", "Wait!");
+      if (!Alloy.UI.LoginView.config.emailTextField.validate(email)) {
         emailTextField.focus();
         return;
       }
@@ -100,7 +123,7 @@ Ti.App.addEventListener('app:login:show', function(e) {
 Ti.App.addEventListener('app:login:dismiss', function(e) {
   if (Alloy.UI.LoginView.instance) {
     Alloy.UI.LoginView.instance.window.close();
-    Alloy.UI.LoginView.instance = null;
+    //Alloy.UI.LoginView.instance = null;
   }
 });
 
