@@ -27,12 +27,13 @@ Alloy.ViewModel = new JS.Class({
   fetch: function(params) {
     if (this.blocked)
       return;
-      
-    if (typeof(params) == 'undefined') params = {};
-
-    var url = this.url(params);
-    info(url);
     
+    var url = this.url(params);
+    //info(url);
+    
+    if (typeof(params) == 'undefined') params = {};
+    Alloy.analytics.trackEvent('alloy:view_model:' + this.name, 'fetch', url);
+
     // Skip reading from cache when --
     if (
         // getting more rows, OR
@@ -86,6 +87,8 @@ Alloy.ViewModel = new JS.Class({
     var _this = this;
     
     xhr.onload = function() {
+      Alloy.analytics.trackEvent('alloy:view_model:' + _this.name, 'success', url);
+
       if (!params.async)
         Ti.App.fireEvent('app:hide.loader');
 
@@ -95,13 +98,18 @@ Alloy.ViewModel = new JS.Class({
       //}
       _this.currentRequest = null;
       
-      info("xhr Call returned");
-      info(this.responseText);
+      //info("xhr Call returned");
+      //info(this.responseText);
       var data;
       try {
         data = _this.parseData(this);
       }
       catch(e) {}
+      
+      if (!data) {
+        _this.onError(this, params);
+        return;
+      }
       
       if (data && !_this.blocked) {
         _this.dataReady(data, params);
@@ -115,11 +123,11 @@ Alloy.ViewModel = new JS.Class({
     }
     
     xhr.onerror = function() {
+      Alloy.analytics.trackEvent('alloy:view_model:' + _this.name, 'error', url);
       _this.onError(this, params);
       if (!params.async)
         Ti.App.fireEvent('app:hide.loader');
       _this.currentRequest = null;
-      //info("ERROR: " + JSON.stringify(_this) + JSON.stringify(this));
     }
     
     if (!params.async)
@@ -137,12 +145,12 @@ Alloy.ViewModel = new JS.Class({
   },
   
   readCachedData: function(url) {
-    info("Reading cached data for url " + url);
+    //info("Reading cached data for url " + url);
     var data = null;
     
     try {
       var sql = 'SELECT data from view_model_cache WHERE url = ?;';
-      var rows = Alloy.Database.getInstance().db.execute(sql, url);
+      var rows = Alloy.Database.getInstance().db.execute(sql, this.getCacheKey(url));
       if (rows.getRowCount() > 0 && rows.isValidRow()) {
         data = eval('(' + rows.fieldByName('data') + ')');
       }
@@ -152,20 +160,24 @@ Alloy.ViewModel = new JS.Class({
       Ti.API.error(exception);
       return null;
     }
-    info("Data returned: " + JSON.stringify(data));
+    //info("Data returned: " + JSON.stringify(data));
     return data;
   },
   
   cacheData: function(url, data) {
-    info("Caching data for url: " + url);
+    //info("Caching data for url: " + url);
     try {
       var sql = 'INSERT OR REPLACE INTO view_model_cache (url,data) VALUES (?,?)';
-      Alloy.Database.getInstance().db.execute(sql, url, JSON.stringify(data));
+      Alloy.Database.getInstance().db.execute(sql, this.getCacheKey(url), JSON.stringify(data));
     }
     catch(exception) {
       Ti.API.error(exception);
     }
-    info("Done");
+    //info("Done");
+  },
+  
+  getCacheKey: function(url) {
+    return url;
   },
   
   dataReady: function(data, params) {
@@ -173,6 +185,10 @@ Alloy.ViewModel = new JS.Class({
   },
   
   onError: function(response) {
+    if (response.status == 0) {
+      Ti.App.fireEvent('app:network:timeout');
+    }
+    
     if (this.view && this.view.onError)
       this.view.onError(response, this);
 
@@ -193,8 +209,8 @@ Alloy.ViewModel = new JS.Class({
     
     var result = (obj1.md5 == obj2.md5) && (obj1.json == obj2.json);
     if (!result) {
-      info("    obj1: " + obj1.md5 + " -- " + obj1.json);
-      info("    obj2: " + obj2.md5 + " -- " + obj2.json);
+      //info("    obj1: " + obj1.md5 + " -- " + obj1.json);
+      //info("    obj2: " + obj2.md5 + " -- " + obj2.json);
     }
     return result;
   },
@@ -207,7 +223,7 @@ Alloy.ViewModel = new JS.Class({
   },
   
   abortFetch: function() {
-    info("********** ABORT fetch!")
+    //info("********** ABORT fetch!")
     if (this.currentRequest) {
       this.currentRequest.abort();
       this.currentRequest = null;

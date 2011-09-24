@@ -29,7 +29,7 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
       if (params.rowsPerPage < this.rowsPerPage)
         params.rowsPerPage = this.rowsPerPage;
       
-      info("params.rowsPerPage = " + params.rowsPerPage);
+      //info("params.rowsPerPage = " + params.rowsPerPage);
     }
    
     this.callSuper(params);
@@ -83,13 +83,13 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
   },
   
   diffUpdate: function(oldData, newData, newDataStartIndex, fullReload) {
-    info('Starting diff update');
+    //info('Starting diff update');
     
     var oldDataCount = oldData.length;
     var exhaustedOldData = false;
     
-    info('oldData length: ' + oldData.length);
-    info('newData length: ' + newData.length);
+    //info('oldData length: ' + oldData.length);
+    //info('newData length: ' + newData.length);
     
     for (var i = 0; i < newData.length; i++) {
       var newDataItem = newData[i];
@@ -112,7 +112,7 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
         if (newID == oldID) {
           // and contents have changed, update the item
           if (this.sameObjects(newDataItem, oldDataItem)) {
-            info('Skipping row ' + oldDataIndex);
+            //info('Skipping row ' + oldDataIndex);
           }
           else {
             this.view.updateRow(oldDataIndex, row, this);
