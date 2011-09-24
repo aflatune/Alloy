@@ -2,6 +2,7 @@
 Ti.include('extern/redux.js');
 
 var Alloy = {};
+if (typeof(AlloyConfig) == 'undefined') AlloyConfig = {};
 
 // Include external libraries
 include('extern/js_class_core.js');
@@ -9,6 +10,17 @@ include('extern/md5.js');
 
 // Include utilities
 include('util/util.js');
+
+// Analytics
+include('analytics/analytics.js');
+if (AlloyConfig.analytics) {
+  if (AlloyConfig.analytics.provider == 'google')
+    include('analytics/google.js');
+  else if (AlloyConfig.analytics.provider == 'flurry')
+    include('analytics/flurry.js');
+  else
+    Alloy.analytics = new JS.Singleton(Alloy.AnalyticsBase, {});
+}
 
 // MVVM pattern
 include('model.js');
