@@ -6,11 +6,15 @@ Alloy.UI.GridViewRow = new JS.Class({
       backgroundColor: 'transparent',
       height: 'auto',
       minHeight: 30
-    })
+    });
+    
+    this.contentView = new View({height: 'auto', width: '100%', top:0});
+    this.view.add(this.contentView);
   },
   
   add: function(gridViewItem) {
-    this.view.add(gridViewItem.view);
+    this.contentView.add(gridViewItem.view);
+    gridViewItem.gridViewRow = this;
   }
 
 });
@@ -78,6 +82,7 @@ Alloy.UI.GridView = new JS.Class({
       if (i % itemsPerRow == 0) {
         currentGridViewRow = new Alloy.UI.GridViewRow();
         tableData.push(currentGridViewRow.view);
+        currentGridViewRow.rowIndex = tableData.length - 1;
       }
       
       item.view.left = margin + ((this.itemWidth + margin) * (i % itemsPerRow));
