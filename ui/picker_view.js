@@ -4,6 +4,7 @@ Alloy.UI.PickerView = new JS.Class(Alloy.View, {
   initialize: function() {
     this.callSuper();
     this.window.backgroundColor = 'stripped';
+    this.name = 'picker';
   },
   
   render: function(title, items /* array of arrays of string*/, onSelectionCallback, onDoneCallback) {
