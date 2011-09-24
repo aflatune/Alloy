@@ -8,8 +8,20 @@ Alloy.View = new JS.Class({
       this.view = new View();
     }
     else {
-      this.view = this.window = new Window('viewWindow');
+      this.view = this.window = Ti.UI.createWindow();
+      var _this = this;
+      this.window.addEventListener('focus', function() {
+        _this.trackViewShowEvent();
+      });
     }
+  },
+  
+  analyticsPageUrl: function() {
+    return (this.name || '(anonymous)');
+  },
+  
+  trackViewShowEvent: function() {
+    Alloy.analytics.trackPageview('/' + this.analyticsPageUrl());
   },
   
   render: function() {
