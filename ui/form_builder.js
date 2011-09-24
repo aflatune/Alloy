@@ -26,28 +26,35 @@ Alloy.UI.FormBuilder = new JS.Class({
   },
   
   createRow : function(height) {
-    return new TableViewRow({
-      height : height
+    return Ti.UI.createTableViewRow({
+      height : height,
+      allowsSelection:false,
+      separatorStyle: 0
     });
   },
 
   render: function() {
-    this.tableView = new TableView({data:this.tableData, style:Titanium.UI.iPhone.TableViewStyle.GROUPED});
+    this.tableView = Ti.UI.createTableView({data:this.tableData, style:Titanium.UI.iPhone.TableViewStyle.GROUPED});
     this.window.add(this.tableView);
     return this.tableView;
   },
 
-  createButton : function(height, title) {
+  createButton : function(height, title, color, backgroundColor) {
     var row = this.createRow();
+    if (backgroundColor)
+      row.backgroundColor = backgroundColor;
     row.height = height;
     row.add(new Label({
       text: title, 
       width: '100%', 
       font: {fontSize: 14, fontWeight: 'bold'},
       textAlign: 'center',
-      top: 0
+      top: 0,
+      color: color
     }));
     this.currentSection().add(row);
+    
+    return row;
   },
   
   _addSplitRowLabel: function(row, labelText, height) {
@@ -63,9 +70,11 @@ Alloy.UI.FormBuilder = new JS.Class({
     return label;
   },
   
-  createTextField : function(height, labelText, hintText, text, keyboardType, returnKeyType) {
+  createTextField : function(height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
     var row = this.createRow(height);
-
+    if (backgroundColor)
+      row.backgroundColor = backgroundColor;
+      
     var textFieldConfig;
 
     if(labelText) {
