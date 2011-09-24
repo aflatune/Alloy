@@ -460,21 +460,7 @@ var redux = function (selector) {
                 // return created object with merged defaults by type
                 
 								var obj = parent['create' + type](args);
-								
-								if (type == 'TableView') {
-									obj.addEventListener('click', function(e)
-									{
-										if (e.rowData.controller)
-										{
-										  Ti.include("/app/controllers/" + e.rowData.controller + "_controller.js");
-											var controllerClassName = e.rowData.controller.toPascalCase() + "Controller";
-											var controllerClass = Controller.controllers[controllerClassName];
-											
-											controllerClass.run(e.rowData.action, e.rowData.params);
-										}
-									});
-								}
-								
+																
 								return obj;
             };
             /**
