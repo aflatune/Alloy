@@ -23,7 +23,8 @@ Alloy.UI.GridViewItem = new JS.Class({
   initialize: function(gridView, params) {
     this.width = gridView.itemWidth;
     this.height = gridView.itemHeight;
-
+    this.header = params.header;
+    
     this.view = new View({
       //backgroundColor: '#0f0',
       height: this.height,
@@ -77,16 +78,32 @@ Alloy.UI.GridView = new JS.Class({
     var itemsPerRow = Math.floor((totalWidth - this.minMargin) / (this.itemWidth + this.minMargin));
     var margin = (totalWidth - (this.itemWidth * itemsPerRow)) / (itemsPerRow + 1);
     
+    var itemsInCurrentRow = 0;
+    var currentHeader = null;
+    
     for (var i = 0; i < this.gridViewItems.length; i++) {
       var item = this.gridViewItems[i];
-      if (i % itemsPerRow == 0) {
+      
+      var newHeader = false;
+      if (item.header) {
+        newHeader = (currentHeader != item.header);
+        if (newHeader)
+          currentHeader = item.header;
+      }
+      
+      if (newHeader || itemsInCurrentRow == 0) {
+        itemsInCurrentRow = 0;
         currentGridViewRow = new Alloy.UI.GridViewRow();
+        if (newHeader && item.header)
+          currentGridViewRow.view.header = item.header;
+          
         tableData.push(currentGridViewRow.view);
         currentGridViewRow.rowIndex = tableData.length - 1;
       }
-      
-      item.view.left = margin + ((this.itemWidth + margin) * (i % itemsPerRow));
+            
+      item.view.left = margin + ((this.itemWidth + margin) * itemsInCurrentRow);
       currentGridViewRow.add(item);
+      itemsInCurrentRow = (itemsInCurrentRow + 1) % itemsPerRow;
     }
     
     this.view.setData(tableData);    
