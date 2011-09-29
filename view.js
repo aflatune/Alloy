@@ -9,6 +9,7 @@ Alloy.View = new JS.Class({
     }
     else {
       this.view = this.window = Ti.UI.createWindow();
+      $(this.window).applyStyle('Window', { className: 'viewWindow' });
       var _this = this;
       this.window.addEventListener('focus', function() {
         _this.trackViewShowEvent();
