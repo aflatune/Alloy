@@ -150,7 +150,7 @@ Ti.App.addEventListener('app:login:show', function(e) {
   if (!view.rendered)
     view.render();
     
-  view.window.open({modal:false, animated:true, title: "Cupidtino", navBarHidden: true});
+  view.window.open({modal:false, animated:true, title: "Cupidtino", navBarHidden: true, transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT});
 });
 
 Ti.App.addEventListener('app:login:dismiss', function(e) {
