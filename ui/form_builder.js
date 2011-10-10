@@ -1,24 +1,27 @@
 var used = [Titanium.UI.createSwitch];
 
 Alloy.UI.FormBuilder = new JS.Class({
-  initialize: function(window) {
-    this.window = window;
+  initialize: function(view) {
+    this.view = view;
 
     this.simpleRowConfig = {
       control: {
         left: '4%',
-        width: '96%'
+        width: '96%',
+        className: 'formBuilderSimpleRowControl'
       }
     },
     
     this.splitRowConfig = {
       leftControl: {
         left: '4%',
-        width: '36%'
+        width: '36%',
+        className: 'formBuilderSplitRowLeftControl'
       },
       rightControl: {
         left: '40%',
-        width: '56%'
+        width: '56%',
+        className: 'formBuilderSplitRowRightControl'
       }
     };
         
@@ -35,7 +38,7 @@ Alloy.UI.FormBuilder = new JS.Class({
 
   render: function() {
     this.tableView = Ti.UI.createTableView({data:this.tableData, style:Titanium.UI.iPhone.TableViewStyle.GROUPED});
-    this.window.add(this.tableView);
+    this.view.add(this.tableView);
     return this.tableView;
   },
 
@@ -59,6 +62,7 @@ Alloy.UI.FormBuilder = new JS.Class({
   
   _addSplitRowLabel: function(row, labelText, height) {
     var label = new Label({
+      className: this.splitRowConfig.leftControl.className,
       top : 0,
       left : this.splitRowConfig.leftControl.left,
       width : this.splitRowConfig.leftControl.width,
@@ -86,6 +90,7 @@ Alloy.UI.FormBuilder = new JS.Class({
     }
 
     var textField = new TextField({
+      className: this.splitRowConfig.rightControl.className,
       top : 4,
       left : textFieldConfig.left,
       width : textFieldConfig.width,
@@ -115,6 +120,7 @@ Alloy.UI.FormBuilder = new JS.Class({
     row.add(leftControl);
     
     var rightControl = new Switch({
+      className: this.splitRowConfig.rightControl.className,
       right: this.splitRowConfig.leftControl.left,
       value: value      
     });
@@ -130,6 +136,7 @@ Alloy.UI.FormBuilder = new JS.Class({
     row.add(label1);
     
     var label2 = new Label({
+      className: this.splitRowConfig.rightControl.className,
       left : this.splitRowConfig.rightControl.left,
       width : this.splitRowConfig.rightControl.width,
       text : label2Text
@@ -148,7 +155,9 @@ Alloy.UI.FormBuilder = new JS.Class({
     return this.tableData[this.tableData.length-1];
   },
   
-  startNewSection: function() {
-    this.tableData[this.tableData.length] = Ti.UI.createTableViewSection();
+  startNewSection: function(title) {
+    var section = Ti.UI.createTableViewSection();
+    section.headerTitle = title;
+    this.tableData[this.tableData.length] = section;
   }
 })
