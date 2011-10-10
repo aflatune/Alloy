@@ -55,6 +55,8 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
           Alloy.UI.WebView.show(_this.config.signupUrl);
         })
       }
+      
+      this.signupButton = joinButton;
     }
     
     // Render the form
