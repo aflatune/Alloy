@@ -79,25 +79,22 @@ Alloy.UI.GridView = new JS.Class({
     var margin = (totalWidth - (this.itemWidth * itemsPerRow)) / (itemsPerRow + 1);
     
     var itemsInCurrentRow = 0;
-    var currentHeader = null;
+    var currentHeader = "~~NOHEADER~~";
     
     for (var i = 0; i < this.gridViewItems.length; i++) {
       var item = this.gridViewItems[i];
       
       var newHeader = false;
-      if (item.header) {
-        newHeader = (currentHeader != item.header);
-        if (newHeader)
-          currentHeader = item.header;
-      }
+      newHeader = (currentHeader != item.header);
+      if (newHeader)
+        currentHeader = item.header;
       
       if (newHeader || itemsInCurrentRow == 0) {
         itemsInCurrentRow = 0;
         currentGridViewRow = new Alloy.UI.GridViewRow();
 
-        if (newHeader && item.header) {
+        if (newHeader) {
           this.startNewSection(item.header);
-          //currentGridViewRow.view.header = item.header;
         }
         
         this.tableData[this.tableData.length-1].add(currentGridViewRow.view);
@@ -117,7 +114,6 @@ Alloy.UI.GridView = new JS.Class({
     var section = Ti.UI.createTableViewSection();
     if (header) {
       if (typeof(header) == "string") {
-        //section.headerTitle = header;
         var v = new View({height: 30, backgroundColor: '#e0e0e0', opacity: 0.9});
         var l = new Label({text: header, width: '100%', height: 30, textAlign: 'center', font: {fontWeight: 'bold', fontSize: 12}});
         v.add(l);
