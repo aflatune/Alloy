@@ -5,6 +5,7 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
   initialize: function() {
     this.callSuper(true);   // Partial view
     this.view.zIndex = 1000;
+    this.view.visible = false;
   },
   
   render: function() {
@@ -85,6 +86,7 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
     
     Ti.App.addEventListener('app:hide.loader', function() {
       _this.showCount--;
+      if (_this.showCount < 0) _this.showCount = 0;
       
       if (_this.showCount == 0 && _this.view.visible) {
         backdrop.animate(a3);          
