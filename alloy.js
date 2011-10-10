@@ -7,6 +7,7 @@ if (typeof(AlloyConfig) == 'undefined') AlloyConfig = {};
 // Include external libraries
 include('extern/js_class_core.js');
 include('extern/md5.js');
+include('extern/date.js');
 
 // Include utilities
 include('util/util.js');
