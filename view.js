@@ -1,6 +1,7 @@
 var used = [Ti.UI.createWindow];
 
 Alloy.View = new JS.Class({
+  include: Util.EventListener,
   rendered: false,
   
   initialize: function(partial) {
@@ -10,13 +11,17 @@ Alloy.View = new JS.Class({
       this.window = Ti.UI.createWindow();
       $(this.window).applyStyle('Window', { className: 'viewWindow' });
       var _this = this;
-      this.window.addEventListener('focus', function() {
+      this.addEventListener(this.window, 'focus', function() {
         _this.trackViewShowEvent();
       });
-      this.view.top = 0;
-      this.view.bottom = 0;
-      this.view.left = 0;
-      this.view.right = 0;
+      this.addEventListener(this.window, 'close', function() {
+        _this.removeEventListeners();
+      });
+      
+      //this.view.top = 0;
+      //this.view.bottom = 0;
+      //this.view.left = 0;
+      //this.view.right = 0;
       
       this.window.add(this.view);
     }
@@ -86,28 +91,32 @@ Alloy.View = new JS.Class({
     
     this.simulatedModal = true;
     this.window.top = Titanium.Platform.displayCaps.platformHeight - 40; //this.window.height;
+    
     var a = new Animation();
     params.modal = false;
     this.window.open(params);
     a.top = 0;
-    //a.duration = 3000;
+    a.duration = 500;
     this.window.animate(a);
   },
   
   close: function(params) {
     params = params || {};
+    var _this = this;
+    
+    var w = _this.navWrapper || _this.window;
     
     if (this.simulatedModal && params.animated) {
-      var _this = this;
       var a = new Animation();
-      a.top = Titanium.Platform.displayCaps.platformHeight - 40;
+      a.top = this.window.height;
+      a.duration = 500;
       a.addEventListener('complete', function() {
-        _this.window.close({animated: false});
+        w.close({animated: false});
       })
-      this.window.animate(a);
+      w.animate(a);
     }
     else {
-      this.window.close(params);
+      w.close(params);
     }
   }
 });
