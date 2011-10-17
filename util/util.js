@@ -1,5 +1,6 @@
 Util = {};
 Ti.include('string.js');
+Ti.include('event.js');
 
 Util.Hash = {
   keys: function(o){
