@@ -1,4 +1,4 @@
-var used = [Titanium.UI.createSwitch];
+var used = [Titanium.UI.createSwitch, Titanium.UI.createTextArea];
 
 Alloy.UI.FormBuilder = new JS.Class({
   initialize: function(view) {
@@ -60,6 +60,25 @@ Alloy.UI.FormBuilder = new JS.Class({
     return row;
   },
   
+  createLabel: function(text) {
+    var row = this.createRow();
+    row.height = 'auto';
+    
+    row.hasChild = true;
+    var label = new Label({
+      text: text, 
+      font: {fontSize: 14},
+      textAlign: 'left',
+      left: 8,
+      right: 8,
+      height: 40
+    });
+    row.add(label);
+    this.currentSection().add(row);
+    
+    return ({row: row, label: label});
+  },
+  
   _addSplitRowLabel: function(row, labelText, height) {
     var label = new Label({
       className: this.splitRowConfig.leftControl.className,
@@ -73,8 +92,16 @@ Alloy.UI.FormBuilder = new JS.Class({
     row.add(label); 
     return label;
   },
-  
+
   createTextField : function(height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
+    return this.createTextFieldInternal(true, height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor);
+  },
+
+  createTextArea : function(height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
+    return this.createTextFieldInternal(false, height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor);
+  },
+    
+  createTextFieldInternal : function(textFieldType, height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
     var row = this.createRow(height);
     if (backgroundColor)
       row.backgroundColor = backgroundColor;
@@ -89,7 +116,9 @@ Alloy.UI.FormBuilder = new JS.Class({
       textFieldConfig = this.simpleRowConfig.control;
     }
 
-    var textField = new TextField({
+    var textControl = textFieldType ? TextField : TextArea;
+    
+    var textField = new textControl({
       className: this.splitRowConfig.rightControl.className,
       top : 4,
       left : textFieldConfig.left,
@@ -159,5 +188,6 @@ Alloy.UI.FormBuilder = new JS.Class({
     var section = Ti.UI.createTableViewSection();
     section.headerTitle = title;
     this.tableData[this.tableData.length] = section;
+    return section;
   }
 })
