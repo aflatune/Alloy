@@ -13,6 +13,8 @@ Ti.include('grid_view.js');
 Ti.include('effects.js');
 Ti.include('web_view.js');
 Ti.include('message_view.js');
+Ti.include('text_area_view.js');
+Ti.include('view_requires_authentication.js');
 
 Alloy.UI.focus = function(control) {
   control.addEventListener('setFocus', function() {
