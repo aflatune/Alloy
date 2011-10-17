@@ -4,23 +4,29 @@ Alloy.UI.PickerView = new JS.Class(Alloy.View, {
   initialize: function() {
     this.callSuper();
     this.window.backgroundColor = 'stripped';
-    this.window.modal = false;
-    this.window.navBarHidden = true;
+    //this.window.modal = false;
+    //this.window.navBarHidden = true;
     this.name = 'picker';
     var picker = Ti.UI.createPicker({top: 0, selectionIndicator: true});
     this.picker = picker;
+    
     this.view.add(picker);
   },
   
-  render: function(title, items /* array of arrays of string*/, infoLineFormat, onSelectionCallback, onDoneCallback, initialValues) {
+  render: function(title, items /* array of arrays of strings*/, infoLineFormat, initialValues) {
     this.window.title = title;
+    this.title = title;
     this.infoLineFormat = infoLineFormat;
     var _this = this;
     
     this.picker.addEventListener('change', function(e) {
       _this.selectedValue = e.selectedValue || _this.picker.value;
       _this.updateInfoLine();
-      onSelectionCallback(_this, e.columnIndex, e.rowIndex, _this.selectedValue);
+      _this.picker.fireEvent('app:picker_view:change', {pickerView: _this, columnIndex: e.columnIndex, rowIndex: e.rowIndex, selectedValue: _this.selectedValue});
+
+      if (_this.autoCommit) {
+         _this.picker.fireEvent('app:picker_view:done', {pickerView: _this, selectedValue: _this.selectedValue});       
+      }
     });
     
     var columns = [];
@@ -73,26 +79,35 @@ Alloy.UI.PickerView = new JS.Class(Alloy.View, {
     this.view.add(this.infoLine);
     this.updateInfoLine();
     
-    // Nav bar buttons    
-    var cancelButton = new Button({
-      title : 'Cancel',
-      style: Ti.UI.iPhone.SystemButtonStyle.DONE
-    });
-    cancelButton.addEventListener('click', function(e) {
-      _this.close({animated: true});
-    })
-    this.window.leftNavButton = cancelButton;
-
-    var doneButton = new Button({
-      title : 'Done',
-      style: Ti.UI.iPhone.SystemButtonStyle.DONE
-    });
+    // Nav bar buttons
+    if (!_this.nav) {
+      var cancelButton = new Button({
+        title : _this.autoCommit ? 'Close' : 'Cancel',
+        style: Ti.UI.iPhone.SystemButtonStyle.DONE
+      });
+      cancelButton.addEventListener('click', function(e) {
+        _this.close({animated: true});
+      })
+      
+      this.window.leftNavButton = cancelButton;      
+    }
     
-    doneButton.addEventListener('click', function(e) {
-      onDoneCallback(_this.window.title, _this.selectedValue);
-      _this.close({animated: true});
-    })
-    this.window.rightNavButton = doneButton;
+    // Present a done (i.e. save) button unless we want to auto commit changes
+    if (!_this.autoCommit) {
+      var doneButton = new Button({
+        title : 'Done',
+        style: Ti.UI.iPhone.SystemButtonStyle.DONE
+      });
+      
+      doneButton.addEventListener('click', function(e) {
+        _this.picker.fireEvent('app:picker_view:done', {pickerView: _this, selectedValue: _this.selectedValue});
+        if (_this.nav)
+          _this.nav.close(_this.window);
+        else
+          _this.window.close();
+      })
+      this.window.rightNavButton = doneButton;
+    }
   },
   
   updateInfoLine: function() {
