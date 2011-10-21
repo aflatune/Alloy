@@ -1,6 +1,10 @@
 // We do this at the top of all of our files to include redux:
 Ti.include('extern/redux.js');
 
+/**
+    @namespace Alloy is an MVVM framework for Appcelerator Titanium mobile. 
+    @see Alloy.View 
+*/
 var Alloy = {};
 if (typeof(AlloyConfig) == 'undefined') AlloyConfig = {};
 

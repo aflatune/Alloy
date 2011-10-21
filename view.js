@@ -1,9 +1,51 @@
 var used = [Ti.UI.createWindow];
 
-Alloy.View = new JS.Class({
+Alloy.View = new JS.Class(/** @lends Alloy.View */{
   include: Util.EventListener,
   rendered: false,
   
+  /**
+    <p>Defines the Alloy View class.</p>
+    
+    <p>View typically represents one screen in your
+    Titanium mobile application. To create a view, define a subclass and override
+    appropriate methods. For example, here's a basic view -</p>
+
+    <code><pre>
+      App = App || {};
+      App.SampleView = new JS.Class(Alloy.View, {
+        initialize: function() {
+          this.callSuper();
+          this.name = 'sample_view';
+        },
+        
+        render: function() {
+          this.callSuper();
+          
+          var label = new Label({text: "Hello from Alloy!"});
+          this.view.add(label);
+        }
+      })
+    </pre></code>
+    
+    And how to invoke the view -
+    <code><pre>
+      var v = new App.SampleView();
+      v.render();
+      v.open();
+    </pre></code>
+    
+    @class Alloy View class
+
+    @borrows Util.EventListener
+    @author Amol Kelkar
+    @since Alloy 1.0
+    @see Alloy
+    
+    @constructs
+    @param {boolean} [partial=false] Whether to instantiate the View as a partial.
+      When true, View is created only with a view, without a window. You then add the view in another view or window.
+  */ 
   initialize: function(partial) {
     this.view = new View();
     
@@ -18,15 +60,10 @@ Alloy.View = new JS.Class({
         _this.removeEventListeners();
       });
       
-      //this.view.top = 0;
-      //this.view.bottom = 0;
-      //this.view.left = 0;
-      //this.view.right = 0;
-      
       this.window.add(this.view);
     }
   },
-  
+
   analyticsPageUrl: function() {
     return (this.name || '(anonymous)');
   },
