@@ -23,9 +23,8 @@
 
 .balloonLeft {
   textAlign: 'left',
-  backgroundImage: '/lib/alloy/ui/images/WhiteBalloonLeft.png',
   backgroundPaddingLeft: 20,
-  backgroundPaddingRight: 8,
+  backgroundPaddingRight: 12,
   backgroundPaddingTop: 4,
   backgroundPaddingBottom: 8,
   top: 8,
@@ -37,8 +36,7 @@
 
 .balloonRight {
   textAlign: 'left',
-  backgroundImage: '/lib/alloy/ui/images/WhiteBalloonRight.png',
-  backgroundPaddingLeft: 8,
+  backgroundPaddingLeft: 12,
   backgroundPaddingRight: 20,
   backgroundPaddingTop: 4,
   backgroundPaddingBottom: 8,

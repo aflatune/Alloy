@@ -19,6 +19,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
   },
   
   render: function() {
+    this.rowCount = 0;
     var layoutTable = new TableView('layoutTable');
     layoutTable.bottom = 80;
      
@@ -35,15 +36,19 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     // Textbox
     var textboxContainer = new Label('messageViewTextboxContainer');
     var textbox = new TextArea('messageViewTextbox');
+    this.textbox = textbox;
     textbox.addEventListener('focus', function(e) {
       var a = new Animation();
       a.bottom = 166;
+      a.duration = 400;
       _this.view.animate(a);
+      _this.scrollToIndex(_this.rowCount - 1);
     });
     
     textbox.addEventListener('blur', function(e) {
       var a = new Animation();
       a.bottom = 0;
+      a.duration = 200;
       _this.view.animate(a);
     });
     controls.add(textboxContainer);
@@ -51,24 +56,26 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     
     // Button
     var sendButton = new Button('messageViewSendButton');
+    this.sendButton = sendButton;
     controls.add(sendButton);
     
     this.view.add(controls);
     
-    this.addMessage("What's up?", Alloy.UI.MessageView.Align.Left);
-    this.addMessage("Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! Building this awesome iPhone app for Cupidtino.. It is going to be magical! ", Alloy.UI.MessageView.Align.Right, Alloy.UI.MessageView.Color.Blue);
-    this.addMessage("What's up?", Alloy.UI.MessageView.Align.Right);
-
     // Dismiss keyboard when clicked elsewhere
     layoutTable.addEventListener('click', function() {
       textbox.blur();
     })
   },
   
-  addMessage: function(text, align, color) {
+  reset: function() {
+    this.messagesTable.setData([]);
+    this.rowCount = 0;
+  },
+  
+  addMessage: function(text, align, color, bold) {
     var row = new TableViewRow('layoutTableRow');
     
-    var container = new View({left: 0, right: 0, top: 8, bottom: 8, height: 'auto'});
+    var container = new View({left: 4, right: 4, top: 8, bottom: 8, height: 'auto'});
     row.add(container);
     
     if (!align) align = Alloy.UI.MessageView.Align.Left;
@@ -77,7 +84,18 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     var balloon = new Label('balloon' + align);
     balloon.backgroundImage = '/lib/alloy/ui/images/' + color + 'Balloon' + align + '.png';
     balloon.text = text;
+    if (bold)
+      balloon.font = {fontWeight: 'bold'};
+      
     container.add(balloon);
     this.messagesTable.appendRow(row);
+    
+    return this.rowCount++;
+  },
+  
+  scrollToIndex: function(index) {
+    if (index == -1) index = this.rowCount - 1;
+    
+    this.messagesTable.scrollToIndex(index);
   }
 })
