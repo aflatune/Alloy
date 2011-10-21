@@ -20,14 +20,14 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
       if(this.forCurrentUser) {
         if (this.user && App.currentUser && this.user.username == App.currentUser.username) {
           if (this.viewModel) {
-            this.viewModel.fetch({async:true});
+            this.viewModel.fetch({type: 'reload', async:true});
             return true;
           }
         }
       }
       else {
         if (this.viewModel)
-          this.viewModel.fetch();
+          this.viewModel.fetch({type: 'reload'});
         return true;
       }
 

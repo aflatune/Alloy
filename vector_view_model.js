@@ -39,7 +39,7 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
     
     // The view is interested in all data together
     if (this.view.dataReady) {
-      this.view.dataReady(data, params, this);
+      //this.view.dataReady(data, params, this);
     }
     
     // Or as diff updates and append calls
@@ -63,7 +63,7 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
         // Append
         for (var i = 0; i < data.length; i++) {
           var newDataItem = data[i];
-          var row = this.view.createRow(newDataItem, this);
+          var row = this.view.createRow(newDataItem, this, i);
           this.view.appendRow(row, this);
           this.data.push(newDataItem);
         }
@@ -98,7 +98,7 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
       
       var oldDataIndex = i + newDataStartIndex;
       var oldDataItem = oldData[oldDataIndex];
-      var row = this.view.createRow(newDataItem, this);
+      var row = this.view.createRow(newDataItem, this, i);
       
       // If no more items in the old data, just append items from new data
       if (exhaustedOldData) {
