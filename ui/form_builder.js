@@ -3,6 +3,7 @@ var used = [Titanium.UI.createSwitch, Titanium.UI.createTextArea];
 Alloy.UI.FormBuilder = new JS.Class({
   initialize: function(view) {
     this.view = view;
+    this.rowCount = 0;
 
     this.simpleRowConfig = {
       control: {
@@ -29,6 +30,7 @@ Alloy.UI.FormBuilder = new JS.Class({
   },
   
   createRow : function(height) {
+    this.rowCount++;
     return Ti.UI.createTableViewRow({
       height : height,
       allowsSelection:false,
