@@ -48,7 +48,36 @@ Alloy.View = new JS.Class({
       }, 10);      
     }
     else {
-      this.window.open(params);
+      if (params.nav) {
+        if (params.nav == 'global'){
+          if (App.tabGroup && App.tabGroup.activeTab) {
+            params.nav = App.tabGroup.activeTab;
+          }
+          else
+            params.nav = true;
+        }
+
+        // nav = true means create a new nav group
+        if (typeof(params.nav) == "boolean") {
+          var contentWindow = new Window();
+          contentWindow.navBarHidden = true;
+          var nav = Ti.UI.iPhone.createNavigationGroup({
+            window:this.window
+          });
+          this.nav = nav;
+          this.navWrapper = contentWindow;
+          
+          contentWindow.add(nav);
+          contentWindow.open({modal:true});
+        }
+        else {
+          this.nav = params.nav;
+          this.nav.open(this.window, params);
+        }
+      }
+      else {
+        this.window.open(params);
+      }
     }
   },
   
