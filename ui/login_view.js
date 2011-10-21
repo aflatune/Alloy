@@ -67,7 +67,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     var cancelButton = new Button('toolbarButton');
     cancelButton.title = 'Cancel';
     
-    //this.window.leftNavButton = cancelButton;
+    this.window.leftNavButton = cancelButton;
 
     var loginButton = new Button({
       title : 'Login',
@@ -76,10 +76,10 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     });
     this.rightNavButton = loginButton;
     
-    //this.window.rightNavButton = loginButton;
+    this.window.rightNavButton = loginButton;
     
     // Toolbar
-    var flexSpace = Titanium.UI.createButton({
+    /*var flexSpace = Titanium.UI.createButton({
       systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
     });
     var toolbar = new Toolbar({
@@ -91,7 +91,8 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     });
 
     this.window.add(toolbar);
-    
+    */
+   
     // Attach toolbar button events after window loads
     // http://developer.appcelerator.com/question/125494/inexplicable-bug-toolbar-button-only-listens-4-clicks
     //this.window.addEventListener("open", function(e) {
@@ -151,8 +152,9 @@ Ti.App.addEventListener('app:login:show', function(e) {
   var view = Alloy.UI.LoginView;
   if (!view.rendered)
     view.render();
-    
-  view.window.open({modal:false, animated:true, title: "Cupidtino", navBarHidden: true, transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT});
+  
+  view.open({modal: false, nav: 'global'});
+  //view.window.open({modal:false, animated:true, title: "Cupidtino", navBarHidden: true, transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT});
 });
 
 Ti.App.addEventListener('app:login:dismiss', function(e) {
