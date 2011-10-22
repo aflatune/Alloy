@@ -86,3 +86,22 @@
   right: 4,
   bottom: 6
 }
+
+/* -------------------------------- */
+/* Loading View                     */
+/* -------------------------------- */ 
+.loadingViewBackground {
+  backgroundColor:'#000',
+  opacity:0.8,
+  borderRadius: 20,
+  borderWidth: 10,
+  borderColor: '#777'
+}
+
+.loadingViewActivityIndicator {
+  style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
+  message: 'Loading...',
+  width: 'auto',
+  color: '#fff',
+  font: {fontSize: 20} 
+}

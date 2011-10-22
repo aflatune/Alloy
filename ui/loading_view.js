@@ -1,5 +1,5 @@
 // Tell the compiler which modules we are going to use; note there are no () on these!
-var used = [];
+var used = [Ti.UI.createActivityIndicator];
 
 Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
   initialize: function() {
@@ -8,39 +8,19 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
     this.view.visible = false;
   },
   
-  render: function() {
-    var backdropHeight = 100;
-    var backdropWidth = 200;
+  render: function(params) {
+    params = params || {};
     
-    var backdrop = new View({
-      backgroundColor:'#000',
-      opacity:0.8,
-      left: Ti.Platform.displayCaps.platformWidth / 2 - backdropWidth / 2,
-      width: backdropWidth,
-      top: Ti.Platform.displayCaps.platformHeight / 2 - backdropHeight / 2,
-      height: backdropHeight,
-      borderRadius: 20,
-      borderWidth: 10,
-      borderColor: '#777'
-    });
+    var backdropHeight = params.height || 100;
+    var backdropWidth = params.width || 200;
     
-    //var t1 = Titanium.UI.create2DMatrix().scale(0.4);
+    var backdrop = new View('loadingViewBackground');
+    backdrop.left = Ti.Platform.displayCaps.platformWidth / 2 - backdropWidth / 2;
+    backdrop.width = backdropWidth;;
+    backdrop.top = Ti.Platform.displayCaps.platformHeight / 2 - backdropHeight / 2;
+    backdrop.height = backdropHeight;
     
-    /*var loader = new View({
-      backgroundImage:'images/logo_med.png',
-      height:80,
-      width:80,
-      transform: t1
-    });
-    */
-   
-    var loader = Ti.UI.createActivityIndicator({
-      style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
-      message: 'Loading...',
-      width: 'auto',
-      color: '#fff',
-      font: {fontSize: 20}
-    });
+    var loader = new ActivityIndicator('loadingViewActivityIndicator');
     
     backdrop.add(loader);
     
