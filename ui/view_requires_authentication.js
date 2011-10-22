@@ -39,6 +39,7 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
     if (this.forCurrentUser) {
       if (App.currentUser) {
         this.user = App.currentUser;
+        this.window.rightNavButton = null;
       }
       else {
         info ("NO USER!! SHOULD SEE BLANK WINDOW.");
