@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
-		<title>Alloy.View | JsDoc Reference</title>
+		<title>Alloy.ViewModel | JsDoc Reference</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 		<meta name="mobileoptimized" content="0" />
@@ -66,12 +66,12 @@
 			<header>
 				<h1 class="classTitle">
 					
-					Class <span>Alloy.View</span>
+					Class <span>Alloy.ViewModel</span>
 				</h1>
 				
 				<div class="intro">
 					<p class="description summary">
-						Alloy View class
+						Alloy ViewModel class
 					</p>
 						
 					
@@ -79,7 +79,7 @@
 							
 							
 							
-								<li>Defined in: <a href="../symbols/src/_Users_amol_work_TitaniumStudioWorkspace_Cupidtino2_Resources_lib_alloy_view.js.html">view.js</a></li>
+								<li>Defined in: <a href="../symbols/src/_Users_amol_work_TitaniumStudioWorkspace_Cupidtino2_Resources_lib_alloy_view_model.js.html">view_model.js</a></li>
 							
 							
 						</ul>
@@ -90,7 +90,7 @@
 			
 				<section>
 					<div class="props">
-						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Alloy.View.">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class Alloy.ViewModel.">
 							<caption class="sectionTitle">Class Summary</caption>
 							<thead>
 								<tr>
@@ -103,9 +103,9 @@
 									<td class="attributes">&nbsp;</td>
 									<td class="nameDescription" >
 										<div class="fixedFont">
-											<b><a href="../symbols/Alloy.View.html#constructor">Alloy.View</a></b>(partial)
+											<b><a href="../symbols/Alloy.ViewModel.html#constructor">Alloy.ViewModel</a></b>(view)
 										</div>
-										<div class="description"><p>Defines the Alloy View class.</div>
+										<div class="description"><p>Defines the Alloy ViewModel class.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -136,14 +136,16 @@
 							</h2>
 							
 							<div class="fixedFont">
-								<b>Alloy.View</b>(partial)
+								<b>Alloy.ViewModel</b>(view)
 							</div>
 							
 							<div class="description">
-								<p>Defines the Alloy View class.</p>
+								<p>Defines the Alloy ViewModel class.</p>
     
-    <p>View typically represents one screen in your
-    Titanium mobile application. To create a view, define a subclass and override
+    <p>ViewModel typically represents all data needed to render a View. Data is downloaded by
+    calling a web service and is optionally cached in local database.
+    
+    To create a view model, define a subclass and override
     appropriate methods.</p>
 								<br /><i>Author: </i>Amol Kelkar.
 							</div>
@@ -164,6 +166,19 @@ var App = {};
 // View models
 
 // Include our RJSS
+includeRJSS('app/rjss/common.rjss');
+
+App.SampleViewModel = new JS.Class(Alloy.ViewModel, {
+  initialize: function(view) {
+    this.callSuper(view);
+    this.name = 'sample'; 
+    this.httpVerb = 'GET';
+  },
+
+  url: function(params) {
+    return 'https://graph.facebook.com/amol.kelkar';
+  }
+});
 
 App.SampleView = new JS.Class(Alloy.View, {
   initialize: function() {
@@ -179,6 +194,10 @@ App.SampleView = new JS.Class(Alloy.View, {
 
     this.viewModel = new App.SampleViewModel(this);
     this.viewModel.fetch();
+  },
+
+  dataReady: function(data) {
+    this.label.text = "Hello from " + data.name + "!";
   }
 })
 
@@ -193,11 +212,12 @@ v.open();</pre>
 									<dt class="heading">Parameters:</dt>
 									
 										<dt>
-											<span class="light fixedFont">{boolean}</span>  <b>partial</b>
-											<i>Optional, Default: false</i>
+											<span class="light fixedFont">{<a href="../symbols/Alloy.View.html">Alloy.View</a>}</span>  <b>view</b>
+											<i>Optional, Default: null</i>
 										</dt>
-										<dd>Whether to instantiate the View as a partial.
-      When true, View is created only with a view, without a window. You then add the view in another view or window.</dd>
+										<dd>View associated with this View Model.
+      When view is specified, view.dataReady(...) or view.onError(...) method is invoked
+      when data is received or an error occurs, respectively. Here's the typical usage -</dd>
 									
 								</dl>
 							
@@ -220,7 +240,7 @@ v.open();</pre>
 									
 										<dt class="heading">See:</dt>
 										
-											<dd><a href="../symbols/Alloy.html">Alloy</a></dd>
+											<dd><a href="../symbols/Alloy.html">Alloy</a>, Alloy.View</dd>
 										
 									
 								</dl>
