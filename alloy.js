@@ -3,6 +3,29 @@ Ti.include('extern/redux.js');
 
 /**
     @namespace Alloy is an MVVM framework for Appcelerator Titanium mobile. 
+		
+		To get started --
+		<pre>
+1. Create a new Titanium mobile project.
+2. From project root, from command line execute the following commands -
+    git init .
+    mkdir Resources/lib
+    git submodule add git@github.com:aflatune/Alloy.git Resources/lib/alloy
+
+    cd Resources
+    mkdir db
+    mkdir db/migrations
+    touch db/migrations/empty.migration
+
+    mkdir app
+    mkdir app/models
+    mkdir app/rjss
+    mkdir app/view_models
+    mkdir app/views
+3. Replace contents of Resources/app.js with sample code in {@link Alloy.ViewModel}
+4. Run in iPhone simulator
+		</pre>
+		
     @see Alloy.View 
 */
 var Alloy = {};
