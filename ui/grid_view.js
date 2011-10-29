@@ -5,7 +5,8 @@ Alloy.UI.GridViewRow = new JS.Class({
     this.view = new TableViewRow({
       backgroundColor: 'transparent',
       height: 'auto',
-      minHeight: 30
+      minHeight: 30,
+      selectionStyle: Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
     });
     
     this.contentView = new View({height: 'auto', width: '100%', top:0});

@@ -9,31 +9,44 @@ Alloy.View = new JS.Class(/** @lends Alloy.View */{
     
     <p>View typically represents one screen in your
     Titanium mobile application. To create a view, define a subclass and override
-    appropriate methods. For example, here's a basic view -</p>
+    appropriate methods.</p>
 
-    <code><pre>
-      App = App || {};
-      App.SampleView = new JS.Class(Alloy.View, {
-        initialize: function() {
-          this.callSuper();
-          this.name = 'sample_view';
-        },
-        
-        render: function() {
-          this.callSuper();
-          
-          var label = new Label({text: "Hello from Alloy!"});
-          this.view.add(label);
-        }
-      })
-    </pre></code>
-    
-    And how to invoke the view -
-    <code><pre>
-      var v = new App.SampleView();
-      v.render();
-      v.open();
-    </pre></code>
+@example
+//-- Contents of Resources/app.js --
+
+// Alloy
+Ti.include('lib/alloy/alloy.js');
+includeRJSS('lib/alloy/ui/alloy_ui.rjss');
+
+// App
+var App = {};
+
+// Views
+
+// View models
+
+// Include our RJSS
+
+App.SampleView = new JS.Class(Alloy.View, {
+  initialize: function() {
+    this.callSuper();
+    this.name = 'sample_view';
+  },
+
+  render: function() {
+    this.callSuper();
+  
+    this.label = new Label({text: 'Hello from Alloy!', textAlign: 'center', color: '#888'});
+    this.view.add(this.label);
+
+    this.viewModel = new App.SampleViewModel(this);
+    this.viewModel.fetch();
+  }
+})
+
+var v = new App.SampleView();
+v.render();
+v.open();
     
     @class Alloy View class
 

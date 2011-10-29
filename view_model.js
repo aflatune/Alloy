@@ -1,4 +1,4 @@
-Alloy.ViewModel = new JS.Class({
+Alloy.ViewModel = new JS.Class(/** @lends Alloy.ViewModel */{
   extend: {
     CachePolicy: {
       Disabled: 1,        // No caching, i.e. fetch directly from web service, no offline support
@@ -7,6 +7,81 @@ Alloy.ViewModel = new JS.Class({
       CacheAndServe: 4},  // If cache hit, do not fetch again from web service. Useful for tracking unique app installs, etc. 
   },
     
+  /**
+    <p>Defines the Alloy ViewModel class.</p>
+    
+    <p>ViewModel typically represents all data needed to render a View. Data is downloaded by
+    calling a web service and is optionally cached in local database.
+    
+    To create a view model, define a subclass and override
+    appropriate methods.</p>
+
+    @example
+//-- Contents of Resources/app.js --
+
+// Alloy
+Ti.include('lib/alloy/alloy.js');
+includeRJSS('lib/alloy/ui/alloy_ui.rjss');
+
+// App
+var App = {};
+
+// Views
+
+// View models
+
+// Include our RJSS
+includeRJSS('app/rjss/common.rjss');
+
+App.SampleViewModel = new JS.Class(Alloy.ViewModel, {
+  initialize: function(view) {
+    this.callSuper(view);
+    this.name = 'sample'; 
+    this.httpVerb = 'GET';
+  },
+
+  url: function(params) {
+    return 'https://graph.facebook.com/amol.kelkar';
+  }
+});
+
+App.SampleView = new JS.Class(Alloy.View, {
+  initialize: function() {
+    this.callSuper();
+    this.name = 'sample_view';
+  },
+
+  render: function() {
+    this.callSuper();
+  
+    this.label = new Label({text: 'Hello from Alloy!', textAlign: 'center', color: '#888'});
+    this.view.add(this.label);
+
+    this.viewModel = new App.SampleViewModel(this);
+    this.viewModel.fetch();
+  },
+
+  dataReady: function(data) {
+    this.label.text = "Hello from " + data.name + "!";
+  }
+})
+
+var v = new App.SampleView();
+v.render();
+v.open();
+    
+    @class Alloy ViewModel class
+
+    @author Amol Kelkar
+    @since Alloy 1.0
+    @see Alloy, Alloy.View
+    
+    @constructs
+    @param {Alloy.View} [view=null] View associated with this View Model.
+      When view is specified, view.dataReady(...) or view.onError(...) method is invoked
+      when data is received or an error occurs, respectively. Here's the typical usage -
+
+  */
   initialize: function(view) {
     this.view = view;
     this.data = null;

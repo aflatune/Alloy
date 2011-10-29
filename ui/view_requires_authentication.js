@@ -15,6 +15,10 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
   },
   
   skipRender: function() {
+    if (this.loginMessage) {
+      this.view.remove(this.loginMessage);
+      this.loginMessage = null;
+    }
     // If already rendered once, 
     if (this.rendered) {
       if(this.forCurrentUser) {
@@ -46,6 +50,7 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
         var message = new Label('profileWindowProfilePrivate');
         message.text = "Please log in";
         this.view.add(message);
+        this.loginMessage = message;
         
         var login = new Button({title: 'Login'});
         this.addEventListener(login, 'click',function(e) {

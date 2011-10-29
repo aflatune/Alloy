@@ -31,7 +31,8 @@
   left: 18,
   width: 'auto',
   height: 'auto',
-  maxWidth: 150
+  maxWidth: 150,
+  font: {fontSize: 14}
 }
 
 .balloonRight {
@@ -43,7 +44,8 @@
   top: 8,
   right: 18,
   width: 'auto',
-  height: 'auto'
+  height: 'auto',
+  font: {fontSize: 14}
 }
 
 .messageViewControls {
@@ -99,7 +101,7 @@
 }
 
 .loadingViewActivityIndicator {
-  style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG,
+  style: 0,
   message: 'Loading...',
   width: 'auto',
   color: '#fff',

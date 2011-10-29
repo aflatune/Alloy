@@ -75,12 +75,17 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
   addMessage: function(text, align, color, bold) {
     var row = new TableViewRow('layoutTableRow');
     
-    var container = new View({left: 4, right: 4, top: 8, bottom: 8, height: 'auto'});
+    var container = new View({left: 4, right: 4, top: 0, bottom: 8, height: 'auto'});
     row.add(container);
     
     if (!align) align = Alloy.UI.MessageView.Align.Left;
     if (!color) color = Alloy.UI.MessageView.Color.White;
     
+    if (align == Alloy.UI.MessageView.Align.Left)
+      container.right = 50;
+    else
+      container.left = 50;
+      
     var balloon = new Label('balloon' + align);
     balloon.backgroundImage = '/lib/alloy/ui/images/' + color + 'Balloon' + align + '.png';
     balloon.text = text;
@@ -91,6 +96,11 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     this.messagesTable.appendRow(row);
     
     return this.rowCount++;
+  },
+  
+  addCustomRow: function(row) {
+    this.messagesTable.appendRow(row);
+    this.rowCount++;
   },
   
   scrollToIndex: function(index) {

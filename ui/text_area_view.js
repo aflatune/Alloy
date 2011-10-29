@@ -3,7 +3,7 @@ var used = [Ti.UI.createTextArea];
 Alloy.UI.TextAreaView = new JS.Class(Alloy.View, {
   initialize: function() {
     this.callSuper();
-    this.window.backgroundColor = 'stripped';
+    //this.window.backgroundColor = 'stripped';
 
     this.name = 'text_area';
     var textArea = new TextArea({left: 8, right: 8, top: 8, height: 184, borderRadius: 8, font: {fontSize: 14}});

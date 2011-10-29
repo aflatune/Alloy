@@ -3,7 +3,7 @@ var used = [Ti.UI.createPicker, Ti.UI.createPickerColumn, Ti.UI.createPickerRow]
 Alloy.UI.PickerView = new JS.Class(Alloy.View, {
   initialize: function() {
     this.callSuper();
-    this.window.backgroundColor = 'stripped';
+    //this.window.backgroundColor = 'stripped';
     //this.window.modal = false;
     //this.window.navBarHidden = true;
     this.name = 'picker';
