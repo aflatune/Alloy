@@ -4,57 +4,30 @@ Alloy.UI.FormBuilder = new JS.Class({
   initialize: function(view) {
     this.view = view;
     this.rowCount = 0;
-
-    this.simpleRowConfig = {
-      control: {
-        left: '4%',
-        width: '96%',
-        className: 'formBuilderSimpleRowControl'
-      }
-    },
-    
-    this.splitRowConfig = {
-      leftControl: {
-        left: '4%',
-        width: '36%',
-        className: 'formBuilderSplitRowLeftControl'
-      },
-      rightControl: {
-        left: '40%',
-        width: '56%',
-        className: 'formBuilderSplitRowRightControl'
-      }
-    };
-        
     this.tableData = [];
   },
   
-  createRow : function(height) {
+  createRow : function() {
     this.rowCount++;
-    return Ti.UI.createTableViewRow({
-      height : height,
-      allowsSelection:false,
-      separatorStyle: 0
-    });
+    var row = new TableViewRow('formBuilderTableRow');
+
+    return row;
   },
 
   render: function() {
-    this.tableView = Ti.UI.createTableView({data:this.tableData, style:Titanium.UI.iPhone.TableViewStyle.GROUPED});
+    this.tableView = new TableView('formBuilderTable');
+    this.tableView.data = this.tableData;
     this.view.add(this.tableView);
     return this.tableView;
   },
 
-  createButton : function(height, title, color, backgroundColor) {
+  createButton : function(title, color, backgroundColor) {
     var row = this.createRow();
     if (backgroundColor)
       row.backgroundColor = backgroundColor;
-    row.height = height;
     row.add(new Label({
+      className: 'formBuilderControl formBuilderButtonLabel',
       text: title, 
-      width: '100%', 
-      font: {fontSize: 14, fontWeight: 'bold'},
-      textAlign: 'center',
-      top: 0,
       color: color
     }));
     this.currentSection().add(row);
@@ -68,12 +41,8 @@ Alloy.UI.FormBuilder = new JS.Class({
     
     row.hasChild = true;
     var label = new Label({
-      text: text, 
-      font: {fontSize: 14},
-      textAlign: 'left',
-      left: 8,
-      right: 8,
-      height: 40
+      className: 'formBuilderControl formBuilderLabel',
+      text: text
     });
     row.add(label);
     this.currentSection().add(row);
@@ -81,13 +50,9 @@ Alloy.UI.FormBuilder = new JS.Class({
     return ({row: row, label: label});
   },
   
-  _addSplitRowLabel: function(row, labelText, height) {
+  _addSplitRowLabel: function(row, labelText) {
     var label = new Label({
-      className: this.splitRowConfig.leftControl.className,
-      top : 0,
-      left : this.splitRowConfig.leftControl.left,
-      width : this.splitRowConfig.leftControl.width,
-      height : height,
+      className: 'formBuilderControl formBuilderSplitRowLeftControl',
       text : labelText
     });
       
@@ -95,37 +60,24 @@ Alloy.UI.FormBuilder = new JS.Class({
     return label;
   },
 
-  createTextField : function(height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
-    return this.createTextFieldInternal(true, height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor);
-  },
-
-  createTextArea : function(height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
-    return this.createTextFieldInternal(false, height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor);
-  },
-    
-  createTextFieldInternal : function(textFieldType, height, labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
-    var row = this.createRow(height);
+  createTextField : function(labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
+    var row = this.createRow();
     if (backgroundColor)
       row.backgroundColor = backgroundColor;
       
-    var textFieldConfig;
+    var className;
 
     if(labelText) {
-      this._addSplitRowLabel(row, labelText, height);
-      textFieldConfig = this.splitRowConfig.rightControl;
+      this._addSplitRowLabel(row, labelText);
+      className = 'formBuilderControl formBuilderSplitRowRightControl';
     }
     else { 
-      textFieldConfig = this.simpleRowConfig.control;
+      className = 'formBuilderControl formBuilderLabel';
     }
 
-    var textControl = textFieldType ? TextField : TextArea;
-    
-    var textField = new textControl({
-      className: this.splitRowConfig.rightControl.className,
+    var textField = new TextField({
+      className: className,
       top : 4,
-      left : textFieldConfig.left,
-      width : textFieldConfig.width,
-      height : height - 8,
       borderStyle : Titanium.UI.INPUT_BORDERSTYLE_NONE,
       hintText : hintText,
       clearButtonMode : Ti.UI.INPUT_BUTTONMODE_ALWAYS,
@@ -145,14 +97,13 @@ Alloy.UI.FormBuilder = new JS.Class({
     return textField;
   },
 
-  createSwitch: function(height, label, value) {
-    var row = this.createRow(height);
-    var leftControl = this._addSplitRowLabel(row, label, height);
+  createSwitch: function(label, value) {
+    var row = this.createRow();
+    var leftControl = this._addSplitRowLabel(row, label);
     row.add(leftControl);
     
     var rightControl = new Switch({
-      className: this.splitRowConfig.rightControl.className,
-      right: this.splitRowConfig.leftControl.left,
+      className: 'formBuilderControl formBuilderSplitRowRightControl formBuilderSwitch',
       value: value      
     });
     row.add(rightControl);
@@ -161,17 +112,16 @@ Alloy.UI.FormBuilder = new JS.Class({
     return ({row:row, leftControl:leftControl, rightControl:rightControl});
   },
   
-  createSplitRowLabels : function(height, label1Text, label2Text) {
-    var row = this.createRow(height);
-    var label1 = this._addSplitRowLabel(row, label1Text, height);
+  createSplitRowLabels : function(label1Text, label2Text) {
+    var row = this.createRow();
+    var label1 = this._addSplitRowLabel(row, label1Text);
     row.add(label1);
     
     var label2 = new Label({
-      className: this.splitRowConfig.rightControl.className,
-      left : this.splitRowConfig.rightControl.left,
-      width : this.splitRowConfig.rightControl.width,
+      className: 'formBuilderControl formBuilderSplitRowRightControl',
       text : label2Text
     });
+    info("label2 " + JSON.stringify(label2.font));
     row.add(label2);
 
     this.currentSection().add(row);

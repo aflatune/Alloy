@@ -34,12 +34,12 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     // Top section
     this.formBuilder.startNewSection();
 
-    var emailTextField = this.formBuilder.createTextField(40, null, this.config.emailTextField.hint, Ti.App.Properties.getString('email'), Titanium.UI.KEYBOARD_EMAIL, Titanium.UI.RETURNKEY_NEXT, this.config.backgroundColor);
+    var emailTextField = this.formBuilder.createTextField(null, this.config.emailTextField.hint, Ti.App.Properties.getString('email'), Titanium.UI.KEYBOARD_EMAIL, Titanium.UI.RETURNKEY_NEXT, this.config.backgroundColor);
     emailTextField.suppressReturn = true;
     emailTextField.color = this.config.color;
     this.emailTextField = emailTextField;
     
-    var passwordTextField = this.formBuilder.createTextField(40, null, "Password", Ti.App.Properties.getString('password'), Titanium.UI.KEYBOARD_ASCII, Titanium.UI.RETURNKEY_GO, this.config.backgroundColor);
+    var passwordTextField = this.formBuilder.createTextField(null, "Password", Ti.App.Properties.getString('password'), Titanium.UI.KEYBOARD_ASCII, Titanium.UI.RETURNKEY_GO, this.config.backgroundColor);
     passwordTextField.passwordMask = true;
     passwordTextField.suppressReturn = true;
     passwordTextField.color = this.config.color;
@@ -48,7 +48,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     // Bottom section
     if (this.config.signupText) {
       this.formBuilder.startNewSection();
-      var joinButton = this.formBuilder.createButton(60, this.config.signupText, this.config.color, this.config.backgroundColor);
+      var joinButton = this.formBuilder.createButton(this.config.signupText, this.config.color, this.config.backgroundColor);
       joinButton.color = this.config.color;
       if (_this.config.signupUrl) {
         joinButton.addEventListener('click', function() {
