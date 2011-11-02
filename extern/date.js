@@ -1184,7 +1184,7 @@ Date.prototype.getOrdinal = function() {
       return _get(fx);
     }
   };
-  g._formats = g.formats(["yyyy-MM-ddTHH:mm:ss"]); //, "ddd, MMM dd, yyyy H:mm:ss tt", "ddd MMM d yyyy HH:mm:ss zzz", "d"]);
+  g._formats = g.formats([]); //"yyyy-MM-ddTHH:mm:ss", "ddd, MMM dd, yyyy H:mm:ss tt", "ddd MMM d yyyy HH:mm:ss zzz", "d"]);
   g._start = _.process(_.set([g.date, g.time, g.expression], g.generalDelimiter, g.whiteSpace), t.finish);
   g.start = function(s) {
     try {
