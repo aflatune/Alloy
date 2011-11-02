@@ -20,6 +20,7 @@ Ti.include('extern/redux.js');
     mkdir app
     mkdir app/models
     mkdir app/rjss
+    touch app/rjss/common.rjss
     mkdir app/view_models
     mkdir app/views
 3. Replace contents of Resources/app.js with sample code in {@link Alloy.ViewModel}

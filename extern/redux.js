@@ -12,8 +12,17 @@ var redux = function (selector) {
     return new redux.fn.init(selector);
 };
 
-(function(redux, context) {
+function clone(obj) {
+  if (!obj)
+    return null;
+  
+  if (typeof(obj) != 'object')
+    return obj;
+    
+  return JSON.parse(JSON.stringify(obj));
+}
 
+(function(redux, context) {
     /**
      * Create shorthand for commonly used functions.
      */
@@ -293,16 +302,31 @@ var redux = function (selector) {
         includeRJSS: function () {
             for (var i = 0, l = arguments.length; i < l; i++) {
                 var parsedRJSS = redux.fn.parseRJSS(arguments[i]);
-                try {
-                    eval(parsedRJSS);
-                } catch(e) {
-                    var lineNumber = 2;
-                    warn('RJSS "' + arguments[i] + '" has syntax errors.  Review generated code with line numbers => ' +
-                        parsedRJSS.replace(/\n/g, function() { return '\n#' + (lineNumber++) + '. ' ; }));
-                    e.message = 'RJSS Syntax ' + e.message;
-                    throw(e);
-                }
+                redux.parsedRJSS = redux.parsedRJSS || [];
+                redux.parsedRJSS.push(parsedRJSS);
             }
+        },
+        
+        compileRJSS: function() {
+            if (!redux.parsedRJSS) return;
+            
+            for (var pass = 1; pass <= 2; pass++) {
+              redux.pass = pass;
+              for (var i = 0, l = redux.parsedRJSS.length; i < l; i++) {
+                  var parsedRJSS = redux.parsedRJSS[i];
+                  try {
+                      eval(parsedRJSS);
+                  } catch(e) {
+                      var lineNumber = 2;
+                      warn('RJSS "' + arguments[i] + '" has syntax errors.  Review generated code with line numbers => ' +
+                          parsedRJSS.replace(/\n/g, function() { return '\n#' + (lineNumber++) + '. ' ; }));
+                      e.message = 'RJSS Syntax ' + e.message;
+                      throw(e);
+                  }
+              }
+            }
+            
+            redux.parsedRJSS = null;
         },
         /**
          * Includes and parses one or more RJSS file in every JavaScript context that will exist, so long as
@@ -336,6 +360,7 @@ var redux = function (selector) {
             }
             return false;
         },
+        
         /**
          * Merges the properties of the two objects.
          * @param {Object} original
@@ -343,11 +368,13 @@ var redux = function (selector) {
          */
         mergeObjects: function mergeObjects(original, overrider) {
             if (original == null) {
-                return overrider || {};
+                return overrider;
             }
             if (overrider == null) {
                 return original;
             }
+            
+            original = clone(original);
             for (var index in overrider) {
                 if (overrider.hasOwnProperty(index)) {
                     if (typeof overrider[index] == 'object') {
@@ -359,6 +386,7 @@ var redux = function (selector) {
             }
             return original;
         },
+        
         /**
          * Adds an event binder that can bind listen events or fire events, similar to how jQuery's events stack works.
          * @param {Object} event
@@ -383,6 +411,18 @@ var redux = function (selector) {
          * @param {Object} defaults
          */
         setDefault: function (selector, defaults) {
+            // Pass 1 is for resolving all vars
+            if (redux.pass == 1) {
+              if (selector.ltrim().rtrim() == '#define') {
+                for(var index in defaults) {
+                  context.rjss.vars[index] = eval('(' + defaults[index] + ')');
+                }
+              }
+
+              return;
+            }
+            
+            // Pass 2 is using vars to set defaults
             var selectors = selector.split(',');
             for (var i = 0, l = selectors.length; i < l; i++) {
                 var cleanSelector = selectors[i].split(' ').join(''); // remove spaces
@@ -404,24 +444,38 @@ var redux = function (selector) {
             }
             return this;
         },
+        
         /**
          * Takes in an object and applies any default styles necessary to it.
          * @param args
          */
         style: function(type, args) {
-            // merge defaults by id
-            if (args && args.id && redux.data.defaults.byID[args.id]) {
-                args = redux.fn.mergeObjects(args, redux.data.defaults.byID[args.id]);
+            if (redux.parsedRJSS) {
+              warn("Uncompiled RJSS detected. Call compileRJSS() after all RJSS files have been included.")
             }
+
+            var styles = {};
+
+            // Defaults by type
+            styles = redux.fn.mergeObjects(styles, redux.data.defaults.byType[type]);
+
             // merge defaults by class name
             if (args && args.className) {
                 var classes = args.className.split(' ');
                 for (var i = 0, l = classes.length; i < l; i++) {
-                    args = redux.fn.mergeObjects(args, redux.data.defaults.byClassName[classes[i]]);
+                    styles = redux.fn.mergeObjects(styles, redux.data.defaults.byClassName[classes[i]]);
                 }
             }
-            // merge defaults by type
-            return redux.fn.mergeObjects(args, redux.data.defaults.byType[type]);
+            
+            // merge defaults by id
+            if (args && args.id && redux.data.defaults.byID[args.id]) {
+                styles = redux.fn.mergeObjects(styles, redux.data.defaults.byID[args.id]);
+            }
+
+            // merge inline styles
+            styles = redux.fn.mergeObjects(styles, args);
+            
+            return styles;
         },
         /**
          * Applies the styles from the passed in arguments directly to the passed in object.
@@ -510,7 +564,7 @@ var redux = function (selector) {
      */
     context.includeGlobal = redux.fn.includeGlobal;
     /**
-     * Includes and parses one or more RJSS files. Styles will be applied to any elements you create after calling this.
+     * Includes and parses one or more RJSS files. Styles will be applied AFTER calling compileRJSS.
      */
     context.includeRJSS = redux.fn.includeRJSS;
     /**
@@ -518,6 +572,14 @@ var redux = function (selector) {
      */
     context.includeRJSSGlobal = redux.fn.includeRJSSGlobal;
 
+    /**
+     * Compiles all RJSS files included so far. Styles will be applied to any elements you create after calling this.
+     */
+    context.compileRJSS = redux.fn.compileRJSS;
+    
+    context.rjss = {};
+    context.rjss.vars = [];
+    
     /**
      * Include any normal files or RJSS files from before this context existed.
      */

@@ -32,6 +32,7 @@ var App = {};
 
 // Include our RJSS
 includeRJSS('app/rjss/common.rjss');
+compileRJSS();
 
 App.SampleViewModel = new JS.Class(Alloy.ViewModel, {
   initialize: function(view) {
