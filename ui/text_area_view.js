@@ -6,7 +6,7 @@ Alloy.UI.TextAreaView = new JS.Class(Alloy.View, {
     //this.window.backgroundColor = 'stripped';
 
     this.name = 'text_area';
-    var textArea = new TextArea({left: 8, right: 8, top: 8, height: 184, borderRadius: 8, font: {fontSize: 14}});
+    var textArea = new TextArea('textAreaViewControl');
     this.textArea = textArea;
     this.textArea.suppressReturn = false;
     

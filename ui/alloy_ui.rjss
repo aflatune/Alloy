@@ -1,3 +1,20 @@
+#define {
+  fontSizeXSmall: 10,
+  fontSizeSmall: 12,
+  fontSizeNormal: 14,
+  fontSizeLarge: 18,
+  fontSizeXLarge: 22
+}
+
+Window, Label, TextField, TextArea {
+  font: {fontSize: rjss.vars.fontSizeNormal},
+  color: '#000'
+}
+
+/* -------------------------------- */
+/* Login View                       */
+/* -------------------------------- */ 
+
 .loginViewWindow {
   backgroundColor:'#336699',
   borderWidth:8,
@@ -9,12 +26,105 @@
 }
 
 /* -------------------------------- */
+/* Form Builder                     */
+/* -------------------------------- */ 
+
+.formBuilderTable {
+  style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
+  backgroundColor: 'transparent'
+}
+
+.formBuilderTableRow {
+  allowsSelection:false,
+  separatorStyle: 0,
+  backgroundColor: '#fff',
+  height: 40
+}
+
+.formBuilderSimpleRowControl {
+  left: '4%',
+  width: '96%'
+}
+
+.formBuilderControl {
+}
+
+.formBuilderSplitRowLeftControl {
+  font: {fontWeight: 'bold'},
+  top : 0,
+  left: '4%',
+  width: '36%'
+}
+
+.formBuilderSplitRowRightControl {
+  top : 0,
+  bottom: 0,
+  right: '4%',
+  width: '56%'
+}
+
+.formBuilderButtonLabel {
+  width: '100%', 
+  font: {fontWeight: 'bold'},
+  textAlign: 'center',
+  top: 0
+}
+
+.formBuilderLabel {
+  textAlign: 'left',
+  left: 8,
+  right: 8,
+  top: 0,
+  bottom: 0
+}
+
+.formBuilderSwitch {
+}
+
+/* -------------------------------- */
+/* TextArea View                    */
+/* -------------------------------- */ 
+
+.textAreaViewControl {
+  left: 8, 
+  right: 8, 
+  top: 8, 
+  height: 184, 
+  borderRadius: 8
+}
+
+/* -------------------------------- */
+/* Grid View                        */
+/* -------------------------------- */ 
+
+.gridViewRow {
+  backgroundColor: 'transparent',
+  height: 'auto',
+  minHeight: 30,
+  selectionStyle: Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
+}
+
+.gridViewSectionHeader {
+  height: 30, 
+  backgroundColor: '#e0e0e0', 
+  opacity: 0.9
+}
+
+.gridViewSectionHeaderLabel {
+  width: '100%', 
+  height: 30, 
+  textAlign: 'center', 
+  font: {fontWeight: 'bold', fontSize: rjss.vars.fontSizeSmall}
+}
+    
+/* -------------------------------- */
 /* Message View                     */
 /* -------------------------------- */ 
 
 .layoutTable {
   selectionStyle: 'NONE',
-  separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE
+  separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
+  backgroundColor: 'transparent'
 }
 
 .layoutTableRow {
@@ -31,8 +141,7 @@
   left: 18,
   width: 'auto',
   height: 'auto',
-  maxWidth: 150,
-  font: {fontSize: 14}
+  maxWidth: 150
 }
 
 .balloonRight {
@@ -44,8 +153,7 @@
   top: 8,
   right: 18,
   width: 'auto',
-  height: 'auto',
-  font: {fontSize: 14}
+  height: 'auto'
 }
 
 .messageViewControls {
@@ -66,7 +174,6 @@
 }
 
 .messageViewTextbox {
-  font: {fontSize: 16},
   backgroundColor:'transparent',
   color:'#000',
   height:58,
@@ -102,8 +209,5 @@
 
 .loadingViewActivityIndicator {
   style: 0,
-  message: 'Loading...',
-  width: 'auto',
-  color: '#fff',
-  font: {fontSize: 20} 
+  width: 'auto'
 }

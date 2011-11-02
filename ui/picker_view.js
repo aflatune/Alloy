@@ -75,7 +75,7 @@ Alloy.UI.PickerView = new JS.Class(Alloy.View, {
     _this.selectedValue = [];
         
     // Info line
-    this.infoLine = new Label({color: '#000', textAlign: 'center', left: 8, right: 8, top: 224, height: 57, font: {fontSize: 19, fontWeight: 'bold'}});
+    this.infoLine = new Label({color: '#000', textAlign: 'center', left: 8, right: 8, top: 224, height: 57, font: {fontSize: rjss.vars.fontSizeLarge, fontWeight: 'bold'}});
     this.view.add(this.infoLine);
     this.updateInfoLine();
     

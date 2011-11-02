@@ -2,13 +2,7 @@ var used = [Ti.UI.createTableViewRow, Ti.UI.createTableView, Ti.UI.createView];
 
 Alloy.UI.GridViewRow = new JS.Class({
   initialize: function(params) {
-    this.view = new TableViewRow({
-      backgroundColor: 'transparent',
-      height: 'auto',
-      minHeight: 30,
-      selectionStyle: Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
-    });
-    
+    this.view = new TableViewRow('gridViewRow');
     this.contentView = new View({height: 'auto', width: '100%', top:0});
     this.view.add(this.contentView);
   },
@@ -115,8 +109,9 @@ Alloy.UI.GridView = new JS.Class({
     var section = Ti.UI.createTableViewSection();
     if (header) {
       if (typeof(header) == "string") {
-        var v = new View({height: 30, backgroundColor: '#e0e0e0', opacity: 0.9});
-        var l = new Label({text: header, width: '100%', height: 30, textAlign: 'center', font: {fontWeight: 'bold', fontSize: 12}});
+        var v = new View('gridViewSectionHeader');
+        var l = new Label('gridViewSectionHeaderLabel');
+        l.text = header;
         v.add(l);
         section.headerView = v;
       }
