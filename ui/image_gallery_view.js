@@ -9,7 +9,7 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
     var views = [];
     for (var i in images) {
       var image = images[i];
-      var container = new ScrollView({maxZoomScale: 3})
+      var container = new ScrollView({maxZoomScale: 3, bottom: 10})
       var imageView = new ImageView({image: image.photo_url, maxZoomScale: 3});
       container.add(imageView);
       views.push(container);
@@ -20,7 +20,7 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
       showPagingControl:true,
       top: 0,
       left: 0,
-      bottom: 0,
+      bottom: 10,
       right: 0
     });
     
