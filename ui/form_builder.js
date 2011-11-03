@@ -1,4 +1,4 @@
-var used = [Titanium.UI.createSwitch, Titanium.UI.createTextArea];
+var used = [Titanium.UI.createSwitch, Titanium.UI.createTextArea, Titanium.UI.iPhone.TableViewStyle.GROUPED, Titanium.UI.iPhone.TableViewCellSelectionStyle.BLUE];
 
 Alloy.UI.FormBuilder = new JS.Class({
   initialize: function(view) {
