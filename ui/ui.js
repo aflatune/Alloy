@@ -33,3 +33,41 @@ Alloy.UI.alert = function(message, title) {
     });
   alertDialog.show();
 }
+
+Alloy.UI.addContentShadows = function(tableView, container, showTopShadow, showBottomShadow) {
+  if (typeof(showTopShadow) == 'undefined') showTopShadow = true;
+  if (typeof(showBottomShadow) == 'undefined') showBottomShadow = true;
+  
+  if (showTopShadow) {
+    var tableHeader = Ti.UI.createView({
+      backgroundImage:"/lib/alloy/ui/images/view_shadow_top.png",
+      //backgroundColor: "#f00",
+      width:320,height:20});
+
+    tableView.headerView = tableHeader;
+    tableView.top = -20;
+
+    /*var containerHeader = Ti.UI.createView({
+      //backgroundImage:"/lib/alloy/ui/images/view_shadow_bottom.png",
+      backgroundColor: "#0f0",
+      width:320,height:20,top:0});
+    container.add(containerHeader);*/
+  }
+
+  if (showBottomShadow) {
+    var tableFooter = Ti.UI.createView({ 
+      backgroundImage:"/lib/alloy/ui/images/view_shadow_bottom.png",
+      //backgroundColor: "#f00",
+      width:320,height:20});
+
+    tableView.footerView = tableFooter;
+    tableView.bottom = -20;
+
+    /*var containerFooter = Ti.UI.createView({
+      //backgroundImage:"/lib/alloy/ui/images/view_shadow_top.png",
+      backgroundColor: "#0f0",
+      width:320,height:20, bottom: 0, zIndex: -100});
+
+    container.add(containerFooter);*/
+  }
+}

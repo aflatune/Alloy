@@ -20,11 +20,14 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
   
   render: function() {
     this.rowCount = 0;
+    var layoutTableContainer = new View();
     var layoutTable = new TableView('layoutTable');
-    layoutTable.bottom = 80;
+    layoutTableContainer.bottom = 80;
+    layoutTableContainer.add(layoutTable);
      
     this.messagesTable = layoutTable;
-    this.view.add(layoutTable);   
+    this.view.add(layoutTableContainer);   
+    Alloy.UI.addContentShadows(layoutTable, layoutTableContainer, true, false);
   
     // Controls toolbar
     var controls = new View('messageViewControls');
@@ -107,5 +110,6 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     if (index == -1) index = this.rowCount - 1;
     
     this.messagesTable.scrollToIndex(index);
+    this.messagesTable.bottom = this.messagesTable.bottom;
   }
 })

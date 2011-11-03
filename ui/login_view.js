@@ -61,7 +61,8 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     
     // Render the form
     var formTable = this.formBuilder.render();
-    formTable.top = 40;
+    Alloy.UI.addContentShadows(formTable, this.view, true, false);
+    formTable.top = 20;
 
     // Nav bar buttons
     var cancelButton = new Button('toolbarButton');
