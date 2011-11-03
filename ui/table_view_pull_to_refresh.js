@@ -41,7 +41,7 @@ Alloy.UI.TableViewPullToRefresh = function(tableView, backgroundColor, color, bo
     color:color,
     textAlign:"center",
     font:{fontSize:rjss.vars.fontSizeSmall,fontWeight:"bold"},
-    shadowColor:"#999",
+    shadowColor:"#fff",
     shadowOffset:{x:0,y:1}
   });
   
@@ -54,7 +54,7 @@ Alloy.UI.TableViewPullToRefresh = function(tableView, backgroundColor, color, bo
     color:color,
     textAlign:"center",
     font:{fontSize:rjss.vars.fontSizeXSmall},
-    shadowColor:"#999",
+    shadowColor:"#fff",
     shadowOffset:{x:0,y:1}
   });
   
