@@ -14,6 +14,8 @@ Alloy.VectorViewModel = new JS.Class(Alloy.ViewModel, {
   },
   
   fetch: function(params) {
+    params = params || {};
+    
     if (params.page == null)
       params.page = Math.ceil((this.data.length / this.rowsPerPage) + 1);
       
