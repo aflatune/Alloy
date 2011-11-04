@@ -27,7 +27,6 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
      
     this.messagesTable = layoutTable;
     this.view.add(layoutTableContainer);   
-    Alloy.UI.addContentShadows(layoutTable, layoutTableContainer, true, false);
   
     // Controls toolbar
     var controls = new View('messageViewControls');
@@ -96,13 +95,29 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
       balloon.font = {fontWeight: 'bold'};
       
     container.add(balloon);
-    this.messagesTable.appendRow(row);
+    if (this.batchAddInProgress)
+      this.tableData.push(row);
+    else
+      this.messagesTable.appendRow(row);
     
     return this.rowCount++;
   },
   
+  startBatchAdd: function() {
+    this.tableData = [];
+    this.batchAddInProgress = true;
+  },
+  
+  endBatchAdd: function() {
+    this.messagesTable.setData(this.tableData);
+    this.batchAddInProgress = false;
+  },
+  
   addCustomRow: function(row) {
-    this.messagesTable.appendRow(row);
+    if (this.batchAddInProgress)
+      this.tableData.push(row);
+    else
+      this.messagesTable.appendRow(row);
     this.rowCount++;
   },
   
