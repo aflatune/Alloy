@@ -17,6 +17,7 @@ Ti.include('text_area_view.js');
 Ti.include('view_requires_authentication.js');
 Ti.include('fullscreen_view.js');
 Ti.include('image_gallery_view.js');
+Ti.include('image_button.js');
 
 Alloy.UI.focus = function(control) {
   control.addEventListener('setFocus', function() {
