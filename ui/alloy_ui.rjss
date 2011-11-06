@@ -11,6 +11,14 @@ Window, Label, TextField, TextArea {
   color: '#000'
 }
 
+ImageButton {
+  height: 30,
+  width: 70,
+  font: {fontSize: 12, fontWeight: 'bold'},
+  textAlign: 'center',
+  color: "#fff"
+}
+
 /* -------------------------------- */
 /* Login View                       */
 /* -------------------------------- */ 
