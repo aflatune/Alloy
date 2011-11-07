@@ -1,5 +1,6 @@
 Alloy.ImageButton = function(params) {
   params.text = params.title;
+  params.stickyTime = params.stickyTime || 1;
   
   var button = new Label(params);
   $(button).applyStyle('ImageButton', params);
@@ -15,7 +16,9 @@ Alloy.ImageButton = function(params) {
       
       button.addEventListener('touchend', function() {
         info('touchend');
-        button.backgroundImage = button.backgroundImageNormal;
+        setTimeout(function() {
+          button.backgroundImage = button.backgroundImageNormal;
+        }, params.stickyTime);
       });  
   
       button.addEventListener('touchcancel', function() {
