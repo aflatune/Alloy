@@ -16,7 +16,7 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
       systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
     });
     
-    var closeButton = new Button('toolbarButton');
+    var closeButton = new Alloy.ImageButton('toolbarButton');
     closeButton.title = 'Close';
     this.addEventListener(closeButton, 'click', function() {
       _this.close();

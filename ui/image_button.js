@@ -1,4 +1,10 @@
 Alloy.ImageButton = function(params) {
+  if (!params)
+    params = {};
+    
+  if (typeof(params) == 'string')
+    params = {className: params};
+    
   params.text = params.title;
   params.stickyTime = params.stickyTime || 1;
   
@@ -10,19 +16,16 @@ Alloy.ImageButton = function(params) {
     
     if (button.backgroundImagePressed) {
       button.addEventListener('touchstart', function() {
-        info('touchstart');
         button.backgroundImage = button.backgroundImagePressed;
       });
       
       button.addEventListener('touchend', function() {
-        info('touchend');
         setTimeout(function() {
           button.backgroundImage = button.backgroundImageNormal;
         }, params.stickyTime);
       });  
   
       button.addEventListener('touchcancel', function() {
-        info('touchcancel');
         button.backgroundImage = button.backgroundImageNormal;
       });
     }

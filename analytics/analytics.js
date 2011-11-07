@@ -4,23 +4,23 @@ Alloy.AnalyticsBase = new JS.Class({
   },
   
   start: function(dispatchPeriod){
-    info('alloy:analytics:start');
+    //info('alloy:analytics:start');
   }, 
   
   stop: function(){
-    info('alloy:analytics:stop');
+    //info('alloy:analytics:stop');
   }, 
   
   trackPageview: function(pageUrl){
-    info('alloy:analytics:trackPageview ' + pageUrl);
+    //info('alloy:analytics:trackPageview ' + pageUrl);
   },
   
   trackEvent: function(category, action, label, value){
-    info('alloy:analytics:trackEvent - ' + category + ', ' + action + ', ' + label + ', ' + value);
+    //info('alloy:analytics:trackEvent - ' + category + ', ' + action + ', ' + label + ', ' + value);
   },
   
   reset:function(){
-    info('alloy:analytics:reset');
+    //info('alloy:analytics:reset');
   }
 })
 

@@ -57,7 +57,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     controls.add(textbox);
     
     // Button
-    var sendButton = new Button('messageViewSendButton');
+    var sendButton = new Alloy.ImageButton({className: 'messageViewSendButton', title: 'Send'});
     this.sendButton = sendButton;
     controls.add(sendButton);
     

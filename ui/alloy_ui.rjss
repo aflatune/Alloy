@@ -196,10 +196,9 @@ ImageButton {
 
 .messageViewSendButton {
   backgroundImage:'/lib/alloy/ui/images/MessageEntrySendButton.png',
-  backgroundSelectedImage:'/lib/alloy/ui/images/MessageEntrySendButtonPressed.png',
+  backgroundImagePressed:'/lib/alloy/ui/images/MessageEntrySendButtonPressed.png',
   width: 60,
   height: 27,
-  title: 'Send',
   right: 4,
   bottom: 6
 }

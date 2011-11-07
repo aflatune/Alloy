@@ -27,7 +27,7 @@ Alloy.UI.TextAreaView = new JS.Class(Alloy.View, {
     var _this = this;
     // Nav bar buttons
     if (!_this.nav) {
-      var cancelButton = new Button({
+      var cancelButton = new Alloy.ImageButton({
         title : _this.autoCommit ? 'Close' : 'Cancel',
         style: Ti.UI.iPhone.SystemButtonStyle.DONE
       });
@@ -51,7 +51,7 @@ Alloy.UI.TextAreaView = new JS.Class(Alloy.View, {
     
     // Present a done (i.e. save) button unless we want to auto commit changes
     if (!_this.autoCommit) {
-      var doneButton = new Button({
+      var doneButton = new Alloy.ImageButton({
         title : 'Done',
         style: Ti.UI.iPhone.SystemButtonStyle.DONE
       });

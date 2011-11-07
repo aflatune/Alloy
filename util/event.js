@@ -12,7 +12,6 @@ Util.EventListener = new JS.Module({
     var events = this.eventCache;
     for (var i in events) {
       var e = events[i];
-      info("Removing " + e.eventName + " event");
       e.target.removeEventListener(e.eventName, e.listener);
     }
   }

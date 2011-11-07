@@ -30,7 +30,7 @@ Alloy.UI.WebView = new JS.Class(Alloy.View, {
 
     // Back button with toolbar
     var _this = this;
-    var backButton = new Button({
+    var backButton = new Alloy.ImageButton({
       title : 'Back',
       className: 'toolbarButton'
     });

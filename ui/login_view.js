@@ -21,10 +21,10 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
   
   initialize : function() {
     this.callSuper();
-    this.window.translucent = true;
-    this.window.barColor = this.config.barColor;
     this.formBuilder = new Alloy.UI.FormBuilder(this.window);
     this.name = 'login';
+    this.window.title = 'Login';
+    this.window.barColor = this.config.barColor;
   },
   
   render : function() {
@@ -64,16 +64,10 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     formTable.top = 40;
 
     // Nav bar buttons
-    var cancelButton = new Button('toolbarButton');
-    cancelButton.title = 'Cancel';
-    
+    var cancelButton = new Alloy.ImageButton({title: 'Cancel'});
     this.window.leftNavButton = cancelButton;
 
-    var loginButton = new Button({
-      title : 'Login',
-      backgroundColor:'blue',
-      className: 'toolbarButton'
-    });
+    var loginButton = new Alloy.ImageButton({title : 'Login'});
     this.rightNavButton = loginButton;
     
     this.window.rightNavButton = loginButton;
@@ -153,7 +147,7 @@ Ti.App.addEventListener('app:login:show', function(e) {
   if (!view.rendered)
     view.render();
   
-  view.open({modal: false, nav: 'global'});
+  view.open({nav: 'global'});
   //view.window.open({modal:false, animated:true, title: "Cupidtino", navBarHidden: true, transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT});
 });
 

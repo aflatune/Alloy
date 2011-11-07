@@ -68,6 +68,8 @@ v.open();
       $(this.window).applyStyle('Window', { className: 'viewWindow' });
       var _this = this;
       this.addEventListener(this.window, 'focus', function() {
+        App.currentWindow = _this.window;
+        App.currentView = _this;
         _this.trackViewShowEvent();
       });
       this.addEventListener(this.window, 'close', function() {
@@ -93,6 +95,8 @@ v.open();
   open: function(params) {
     params = params || {};
     var _this = this;
+    var navWindow = this.window;
+    
     if (params.modal == 'simulated' && params.animated) {
       setTimeout(function() {
         _this.openWithSimulatedAnimation(params);
@@ -117,18 +121,45 @@ v.open();
           });
           this.nav = nav;
           this.navWrapper = contentWindow;
+          navWindow = contentWindow;
           
           contentWindow.add(nav);
           contentWindow.open({modal:true});
         }
         else {
           this.nav = params.nav;
+          
+          if (!params.leftNavButtonTitle && App.currentWindow)
+            params.leftNavButtonTitle = App.currentWindow.title;
+
+          if (!params.leftNavButtonTitle && this.nav.window)
+            params.leftNavButtonTitle = this.nav.window.title;
+            
           this.nav.open(this.window, params);
+        }
+        
+        if (!params.leftNavButtonTitle) {
+          params.leftNavButtonTitle = 'Back';
         }
       }
       else {
         this.window.open(params);
       }
+    }
+    
+    
+    if (params.leftNavButtonTitle && !this.window.leftNavButton) {
+      var title = '  ' + params.leftNavButtonTitle;
+      var imageButton = new Alloy.ImageButton({title: title, className: 'backButton'});
+      var width = title.length * 7;
+      if (width < 70)
+        width = 70;
+      imageButton.width = width;
+      
+      this.window.leftNavButton = imageButton;
+      this.addEventListener(imageButton, 'click', function() {
+        navWindow.close();
+      })
     }
   },
   
