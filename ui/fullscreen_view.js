@@ -33,15 +33,16 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
     var toolbar = new Toolbar({
       items: items,
       top:0,
-      translucent:false,
-      barColor: '#000'
+      translucent:true,
+      barColor: '#000',
+      opacity: 0.7
     });
 
     toolbar.hide();
     this.window.add(toolbar);
     this.toolbarHidden = true;
     
-    this.addEventListener(this.view, 'click', function() {
+    this.addEventListener(this.window, 'click', function() {
       if (_this.toolbarHidden)
         toolbar.show();
       else
