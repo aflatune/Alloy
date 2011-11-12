@@ -21,7 +21,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
   
   initialize : function() {
     this.callSuper();
-    this.formBuilder = new Alloy.UI.FormBuilder(this.window);
+    this.formBuilder = new Alloy.UI.FormBuilder(this.window, this);
     this.name = 'login';
     this.window.title = 'Login';
     this.window.barColor = this.config.barColor;

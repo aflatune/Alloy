@@ -1,8 +1,9 @@
 var used = [Titanium.UI.createSwitch, Titanium.UI.createTextArea, Titanium.UI.iPhone.TableViewStyle.GROUPED, Titanium.UI.iPhone.TableViewCellSelectionStyle.BLUE];
 
 Alloy.UI.FormBuilder = new JS.Class({
-  initialize: function(view) {
+  initialize: function(view, alloyView) {
     this.view = view;
+    this.alloyView = alloyView;
     this.rowCount = 0;
     this.tableData = [];
   },
@@ -10,12 +11,14 @@ Alloy.UI.FormBuilder = new JS.Class({
   createRow : function() {
     this.rowCount++;
     var row = new TableViewRow('formBuilderTableRow');
-
+    
     return row;
   },
 
   render: function() {
     this.tableView = new TableView('formBuilderTable');
+    Alloy.UI.enableTableViewNavigationWithRowSelection(this.tableView, this.alloyView.window);
+     
     this.tableView.data = this.tableData;
     this.view.add(this.tableView);
     return this.tableView;
@@ -62,6 +65,7 @@ Alloy.UI.FormBuilder = new JS.Class({
 
   createTextField : function(labelText, hintText, text, keyboardType, returnKeyType, backgroundColor) {
     var row = this.createRow();
+    row.selectionStyle = Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE;
     if (backgroundColor)
       row.backgroundColor = backgroundColor;
       

@@ -18,6 +18,7 @@ Ti.include('view_requires_authentication.js');
 Ti.include('fullscreen_view.js');
 Ti.include('image_gallery_view.js');
 Ti.include('image_button.js');
+Ti.include('table_view_navigation_with_row_selection.js');
 
 Alloy.UI.focus = function(control) {
   control.addEventListener('setFocus', function() {
@@ -71,4 +72,68 @@ Alloy.UI.addContentShadows = function(tableView, container, showTopShadow, showB
 
     container.add(containerFooter);*/
   }
+}
+
+Alloy.UI.enableRowSelectionEvents = function(tableView) {
+  if (!tableView.enabledRowSelectionEvents) {
+    tableView.enabledRowSelectionEvents = true;
+    
+    tableView.addEventListener('click', function(e) {
+      if (tableView.selectedRowIndex != null) {
+        tableView.fireEvent('rowDeselected', {index: tableView.selectedRowIndex, row: tableView.selectedRow});
+        tableView.selectedRowIndex = null;
+      }
+      if (e.row.selectionStyle != Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE) {
+        tableView.selectedRowIndex = e.index;
+        tableView.selectedRow = e.row;
+        tableView.fireEvent('rowSelected', {index: tableView.selectedRowIndex, row: tableView.selectedRow});
+      }
+    });
+  }
+}
+
+Alloy.UI.setColorRecursive = function(control, c) {
+  if (!control.originalColor) {
+    control.originalColor = control.color || '#fff';
+    if (control.text)
+      control.color = c;
+    if (control.children) {
+      for (var childIndex in control.children) {
+        var child = control.children[childIndex];
+        Alloy.UI.setColorRecursive(child, c);
+      }
+    }
+  }
+}
+
+Alloy.UI.resetColorRecursive = function(control) {
+  if (control.originalColor) {
+    if (control.color)
+      control.color = control.originalColor;
+      
+    control.originalColor = null;      
+    if (control.children) {
+      for (var child in control.children) {
+        Alloy.UI.resetColorRecursive(control.children[child]);
+      }
+    }
+  }
+}  
+
+Alloy.UI.adjustColorsOnRowSelection = function(tableView, color) {
+  tableView.addEventListener('touchstart', function(e) {
+    Alloy.UI.setColorRecursive(e.row, color);
+  });
+
+  tableView.addEventListener('touchcancel', function(e) {
+    Alloy.UI.resetColorRecursive(e.row);
+  });
+    
+  tableView.addEventListener('rowSelected', function(e) {
+    Alloy.UI.setColorRecursive(e.row, color);
+  });
+
+  tableView.addEventListener('rowDeselected', function(e) {
+    Alloy.UI.resetColorRecursive(e.row);
+  });
 }
