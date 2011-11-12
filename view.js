@@ -102,6 +102,9 @@ v.open();
         _this.openWithSimulatedAnimation(params);
       }, 10);      
     }
+    else if (params.modal == 'dialog') {
+      this.openAsDialog(params);
+    }
     else {
       if (params.nav) {
         if (params.nav == 'global'){
@@ -151,9 +154,11 @@ v.open();
     if (params.leftNavButtonTitle && !this.window.leftNavButton) {
       var title = '  ' + params.leftNavButtonTitle;
       var imageButton = new Alloy.ImageButton({title: title, className: 'backButton'});
-      var width = title.length * 7;
+      var width = title.length * 8;
       if (width < 70)
         width = 70;
+      if (width > 160)
+        width = 160;
       imageButton.width = width;
       
       this.window.leftNavButton = imageButton;
@@ -161,6 +166,26 @@ v.open();
         navWindow.close();
       })
     }
+  },
+  
+  openAsDialog: function(params) {
+    App.currentDialogParentWindow = App.currentWindow;
+    
+    var _this = this;
+    this.addEventListener(this.window, 'click', function() {
+      _this.close();
+    })
+    this.window.backgroundColor = 'transparent';
+    this.simulatedDialog = true;
+    this.view.top = Titanium.Platform.displayCaps.platformHeight - 40; //this.window.height;
+    
+    params.modal = false;
+    params.viewHeight = params.viewHeight || 250;
+    this.window.open(params);
+
+    var a = new Animation();
+    a.top = Titanium.Platform.displayCaps.platformHeight - params.viewHeight + 16;
+    this.view.animate(a);
   },
   
   openWithSimulatedAnimation: function(params) {
@@ -228,6 +253,12 @@ v.open();
     }
     else {
       w.close(params);
+    }
+    
+    if (App.currentDialogParentWindow) {
+      App.currentWindow = App.currentDialogParentWindow;
+      App.currentWindow.fireEvent('focus');
+      App.currentDialogParentWindow = null;
     }
   }
 });
