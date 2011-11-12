@@ -39,14 +39,16 @@ ImageButton {
 
 .formBuilderTable {
   style: Titanium.UI.iPhone.TableViewStyle.GROUPED,
-  backgroundColor: 'transparent'
+  backgroundColor: 'transparent',
+  allowsSelection: true
 }
 
 .formBuilderTableRow {
   allowsSelection:false,
   separatorStyle: 0,
   backgroundColor: '#fff',
-  height: 40
+  height: 40,
+  selectedColor:'#fff'
 }
 
 .formBuilderSimpleRowControl {
@@ -139,29 +141,35 @@ ImageButton {
   height: 'auto'
 }
 
-.balloonLeft {
+.balloon_left {
   textAlign: 'left',
-  backgroundPaddingLeft: 20,
-  backgroundPaddingRight: 12,
-  backgroundPaddingTop: 4,
-  backgroundPaddingBottom: 8,
+  backgroundPaddingLeft: 16,
+  backgroundPaddingRight: 16,
+  backgroundPaddingTop: 5,
+  backgroundPaddingBottom: 7,
   top: 8,
   left: 18,
   width: 'auto',
   height: 'auto',
-  maxWidth: 150
+  maxWidth: 150,
+  font: {fontSize: 16},
+  shadowColor:"#eee",
+  shadowOffset:{x:0,y:1}
 }
 
-.balloonRight {
+.balloon_right {
   textAlign: 'left',
-  backgroundPaddingLeft: 12,
-  backgroundPaddingRight: 20,
-  backgroundPaddingTop: 4,
-  backgroundPaddingBottom: 8,
+  backgroundPaddingLeft: 16,
+  backgroundPaddingRight: 16,
+  backgroundPaddingTop: 5,
+  backgroundPaddingBottom: 7,
   top: 8,
   right: 18,
   width: 'auto',
-  height: 'auto'
+  height: 'auto',
+  font: {fontSize: 16},
+  shadowColor:"#eee",
+  shadowOffset:{x:0,y:1}
 }
 
 .messageViewControls {

@@ -3,13 +3,13 @@ var used = [Ti.UI.createTextArea];
 Alloy.UI.MessageView = new JS.Class(Alloy.View, {
   extend: {
     Align: {
-      Left: 'Left',
-      Right: 'Right'
+      Left: 'left',
+      Right: 'right'
     },
     
     Color: {
-      White: 'White',
-      Blue: 'Blue'
+      White: 'grey',
+      Blue: 'blue'
     }
   },
   
@@ -88,11 +88,11 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     else
       container.left = 50;
       
-    var balloon = new Label('balloon' + align);
-    balloon.backgroundImage = '/lib/alloy/ui/images/' + color + 'Balloon' + align + '.png';
+    var balloon = new Label('balloon_' + align);
+    balloon.backgroundImage = '/lib/alloy/ui/images/chat_bubbles/chat_bubble_' + align + '_' + color + '.png';
     balloon.text = text;
     if (bold)
-      balloon.font = {fontWeight: 'bold'};
+      balloon.font = {fontSize: rjss.vars.fontLarge, fontWeight: 'bold'};
       
     container.add(balloon);
     if (this.batchAddInProgress)
