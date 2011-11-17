@@ -31,7 +31,7 @@ Alloy.UI.FormBuilder = new JS.Class({
     row.add(new Label({
       className: 'formBuilderControl formBuilderButtonLabel',
       text: title, 
-      color: color
+      color: color || '#000'
     }));
     this.currentSection().add(row);
     
@@ -103,6 +103,7 @@ Alloy.UI.FormBuilder = new JS.Class({
 
   createSwitch: function(label, value) {
     var row = this.createRow();
+    row.allowsSelection = false;
     var leftControl = this._addSplitRowLabel(row, label);
     row.add(leftControl);
     
