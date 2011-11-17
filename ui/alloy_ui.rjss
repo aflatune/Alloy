@@ -44,7 +44,6 @@ ImageButton {
 }
 
 .formBuilderTableRow {
-  allowsSelection:false,
   separatorStyle: 0,
   backgroundColor: '#fff',
   height: 40,
@@ -57,6 +56,7 @@ ImageButton {
 }
 
 .formBuilderControl {
+  color: '#000'
 }
 
 .formBuilderSplitRowLeftControl {
@@ -111,7 +111,8 @@ ImageButton {
   backgroundColor: 'transparent',
   height: 'auto',
   minHeight: 30,
-  selectionStyle: Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
+  selectionStyle: Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE,
+  allowSelection: false
 }
 
 .gridViewSectionHeader {
@@ -132,9 +133,9 @@ ImageButton {
 /* -------------------------------- */ 
 
 .layoutTable {
-  selectionStyle: 'NONE',
   separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
-  backgroundColor: 'transparent'
+  backgroundColor: 'transparent',
+  allowsSelection: false
 }
 
 .layoutTableRow {
