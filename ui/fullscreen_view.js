@@ -17,7 +17,7 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
     });
     
     var closeButton = new Alloy.ImageButton({title: 'Close'});
-    this.addEventListener(closeButton, 'click', function() {
+    this.addEventListener(closeButton, 'press', function() {
       _this.close();
     })
     

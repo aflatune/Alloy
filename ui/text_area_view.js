@@ -31,7 +31,7 @@ Alloy.UI.TextAreaView = new JS.Class(Alloy.View, {
         title : _this.autoCommit ? 'Close' : 'Cancel',
         style: Ti.UI.iPhone.SystemButtonStyle.DONE
       });
-      cancelButton.addEventListener('click', function(e) {
+      cancelButton.addEventListener('press', function(e) {
         if (_this.nav)
           _this.nav.close(_this.window);
         else
@@ -56,7 +56,7 @@ Alloy.UI.TextAreaView = new JS.Class(Alloy.View, {
         style: Ti.UI.iPhone.SystemButtonStyle.DONE
       });
       
-      doneButton.addEventListener('click', function(e) {
+      doneButton.addEventListener('press', function(e) {
         _this.textArea.fireEvent('app:text_area_view:done', {textAreaView: _this, value: _this.value});
         if (_this.nav)
           _this.nav.close(_this.window);

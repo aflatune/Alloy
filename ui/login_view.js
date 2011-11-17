@@ -95,7 +95,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
       //  return;
       
       //this.toolbarButtonEventsAttached = true;  
-      loginButton.addEventListener('click', function(e) {
+      loginButton.addEventListener('press', function(e) {
         // Login button
         var email = emailTextField.value.trim();
         var password = passwordTextField.value.trim();
@@ -114,7 +114,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
         Ti.App.fireEvent('app:login', {email: email, password: password});
       })
 
-      cancelButton.addEventListener('click', function(e) {
+      cancelButton.addEventListener('press', function(e) {
         Ti.App.fireEvent('app:login:dismiss');
       })
 
@@ -125,7 +125,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     });
 
     passwordTextField.addEventListener('return', function() {
-      loginButton.fireEvent('click');
+      loginButton.fireEvent('press');
     });
     
     Ti.App.fireEvent('app:login:view_rendered');

@@ -53,7 +53,7 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
         this.loginMessage = message;
         
         var login = new Alloy.ImageButton({title: 'Login'});
-        this.addEventListener(login, 'click',function(e) {
+        this.addEventListener(login, 'press',function(e) {
           Ti.App.fireEvent('app:login:show');
         });
         this.window.rightNavButton = login;

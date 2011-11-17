@@ -17,17 +17,30 @@ Alloy.ImageButton = function(params) {
     if (button.backgroundImagePressed) {
       button.addEventListener('touchstart', function() {
         button.backgroundImage = button.backgroundImagePressed;
+        button.pressInProgress = true;
       });
       
       button.addEventListener('touchend', function() {
         setTimeout(function() {
           button.backgroundImage = button.backgroundImageNormal;
         }, params.stickyTime);
+        
+        if (button.pressInProgress) {
+          button.fireEvent('press');
+          button.pressInProgress = false;
+        }
       });  
   
       button.addEventListener('touchcancel', function() {
         button.backgroundImage = button.backgroundImageNormal;
+        button.pressInProgress = false;
       });
+
+      button.addEventListener('touchmove', function() {
+        button.backgroundImage = button.backgroundImageNormal;
+        button.pressInProgress = false;
+      });
+
     }
   }  
   

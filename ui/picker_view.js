@@ -85,7 +85,7 @@ Alloy.UI.PickerView = new JS.Class(Alloy.View, {
         title : _this.autoCommit ? 'Close' : 'Cancel',
         style: Ti.UI.iPhone.SystemButtonStyle.DONE
       });
-      cancelButton.addEventListener('click', function(e) {
+      cancelButton.addEventListener('press', function(e) {
         _this.close({animated: true});
       })
       
@@ -99,7 +99,7 @@ Alloy.UI.PickerView = new JS.Class(Alloy.View, {
         style: Ti.UI.iPhone.SystemButtonStyle.DONE
       });
       
-      doneButton.addEventListener('click', function(e) {
+      doneButton.addEventListener('press', function(e) {
         _this.picker.fireEvent('app:picker_view:done', {pickerView: _this, selectedValue: _this.selectedValue});
         if (_this.nav)
           _this.nav.close(_this.window);

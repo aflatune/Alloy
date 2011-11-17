@@ -50,7 +50,7 @@ Alloy.UI.WebView = new JS.Class(Alloy.View, {
         return;
       
       this.toolbarButtonEventsAttached = true;  
-      backButton.addEventListener('click', function(e) {
+      backButton.addEventListener('press', function(e) {
         _this.window.close({animated: true});
       });
     });
