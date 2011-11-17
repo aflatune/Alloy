@@ -122,18 +122,22 @@ Alloy.UI.resetColorRecursive = function(control) {
 
 Alloy.UI.adjustColorsOnRowSelection = function(tableView, color) {
   tableView.addEventListener('touchstart', function(e) {
-    Alloy.UI.setColorRecursive(e.row, color);
+    if (tableView.allowSelection != false && e.row.allowsSelection != false)
+      Alloy.UI.setColorRecursive(e.row, color);
   });
 
   tableView.addEventListener('touchcancel', function(e) {
-    Alloy.UI.resetColorRecursive(e.row);
+    if (tableView.allowSelection != false && e.row.allowsSelection != false)
+      Alloy.UI.resetColorRecursive(e.row);
   });
     
   tableView.addEventListener('rowSelected', function(e) {
-    Alloy.UI.setColorRecursive(e.row, color);
+    if (tableView.allowSelection != false && e.row.allowsSelection != false)
+      Alloy.UI.setColorRecursive(e.row, color);
   });
 
   tableView.addEventListener('rowDeselected', function(e) {
-    Alloy.UI.resetColorRecursive(e.row);
+    if (tableView.allowSelection != false && e.row.allowsSelection != false)
+      Alloy.UI.resetColorRecursive(e.row);
   });
 }
