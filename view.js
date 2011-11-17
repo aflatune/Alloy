@@ -162,7 +162,7 @@ v.open();
       imageButton.width = width;
       
       this.window.leftNavButton = imageButton;
-      this.addEventListener(imageButton, 'click', function() {
+      this.addEventListener(imageButton, 'press', function() {
         navWindow.close();
       })
     }
@@ -259,6 +259,16 @@ v.open();
       App.currentWindow = App.currentDialogParentWindow;
       App.currentWindow.fireEvent('focus');
       App.currentDialogParentWindow = null;
+    }
+  },
+  
+  clear: function() {
+    if (this.window) {
+      this.window.remove(this.view);
+      this.view = null;
+      
+      this.view = new View();
+      this.window.add(this.view);
     }
   }
 });
