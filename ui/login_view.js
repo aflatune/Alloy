@@ -25,6 +25,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     this.name = 'login';
     this.window.title = 'Login';
     this.window.barColor = this.config.barColor;
+    this.window.tabBarHidden = true;
   },
   
   render : function() {
@@ -67,7 +68,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     var cancelButton = new Alloy.ImageButton({title: 'Cancel'});
     this.window.leftNavButton = cancelButton;
 
-    var loginButton = new Alloy.ImageButton({title : 'Login'});
+    var loginButton = new Alloy.ImageButton({className: 'blueButton', title : 'Login'});
     this.rightNavButton = loginButton;
     
     this.window.rightNavButton = loginButton;
