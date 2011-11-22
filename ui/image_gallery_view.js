@@ -4,21 +4,52 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
   initialize: function() {
     this.callSuper(true /* always a partial view */);
     this.currentPage = 0;
+    this.view.backgroundColor = '#000';
   },
 
   render: function(params) {
+    if (this.rendered)
+      return;
+    this.callSuper();
+
+    var bottomHeight = 30;
+
+    if (params.clickToFullScreen) {
+      var bgImage = new Label({backgroundImage: '/lib/alloy/UI/images/gallery/picture_background_gradient.png'});
+      this.view.add(bgImage);    }
+    else {
+      bottomHeight = 0;
+    }
+    
     var _this = this;
     var images = params.images;
     var selected = params.selected;
     this.parentImageGallery = params.parentImageGallery;
     
     var views = [];
+    var imageViews = [];
+    var reflectionImageViews = [];
+      
     for (var i in images) {
       var image = images[i];
-      var container = new ScrollView({maxZoomScale: 3, bottom: 10})
-      var imageView = new ImageView({image: image.photo_url, maxZoomScale: 3});
-                 
+      var container = new ScrollView({maxZoomScale: (params.clickToFullScreen ? 1 : 3), top: (params.clickToFullScreen ? 20 : 0), bottom: 10});
+      var imageView = new ImageView({image: image.photo_url, 
+        opacity: 1.0, 
+        defaultImage: '/public/images/nophoto_thumb.png', 
+        preventDefaultImage: false});
       container.add(imageView);
+      imageViews.push(imageView);
+      
+      if (params.clickToFullScreen) {
+        imageView.top = 0;
+        imageView.bottom = bottomHeight;
+        var reflection = new ImageView({image: image.photo_url, top: 0, bottom: bottomHeight, opacity: 0.2, defaultImage: '/public/images/nophoto_thumb.png', preventDefaultImage: false});
+        reflection.transform = Ti.UI.create2DMatrix().scale(1, -1).translate(0, - this.view.height + bottomHeight + 40);
+
+        container.add(reflection);
+        reflectionImageViews.push(reflection);
+      }
+
       views.push(container);
     }
     
@@ -29,7 +60,8 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
       left: 0,
       bottom: 10,
       right: 0,
-      pagingControlColor: 'transparent'
+      pagingControlColor: '#000',
+      cacheSize: 11
     });
     this.scrollableView = scrollableView;
     
@@ -38,22 +70,7 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
       if (_this.parentImageGallery) {
         _this.parentImageGallery.scrollableView.scrollToView(_this.currentPage);
       }
-    });
-    
-    if (params.clickToFullScreen) {
-      this.addEventListener(this.view, 'click', function() {
-        var w = new Alloy.UI.FullscreenView();
-        w.render('');
-        
-        var v = new Alloy.UI.ImageGalleryView();
-        v.render({images: images, selected: _this.currentPage, parentImageGallery: _this});
-        v.view.backgroundColor = '#000';
-        w.view.add(v.view);
-        
-        w.open();
-      })
-    }
- 
+    }); 
     
     if (selected) {
       info("SELECTING " + selected);
@@ -63,5 +80,29 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
     }
         
     this.view.add(scrollableView);
+
+
+    if (params.clickToFullScreen) {
+      this.addEventListener(this.view, 'doubletap', function() {
+        var w = new Alloy.UI.FullscreenView();
+        w.render('');
+        
+        w.addEventListener(w.window, 'open', function(){
+          if(w.contentRendered)
+            return;
+          w.contentRendered = true;  
+          var v = new Alloy.UI.ImageGalleryView();
+          v.render({images: images, selected: _this.currentPage, parentImageGallery: _this});
+          w.view.add(v.view);
+        });
+        
+        w.open();
+      });
+      
+      //blackLine = new View({bottom: bottomHeight + 20, height: 1, backgroundColor: '#000'});
+      //this.view.add(blackLine);
+      reflectionFade = new Label({touchEnabled: false, bottom: 13, height: 37, backgroundImage: '/lib/alloy/UI/images/gallery/fade_to_black.png'});
+      this.view.add(reflectionFade);
+    }
   }
 })
