@@ -34,8 +34,7 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
       items: items,
       top:0,
       translucent:true,
-      barColor: '#000',
-      opacity: 0.7
+      barColor: '#000'
     });
 
     toolbar.hide();
