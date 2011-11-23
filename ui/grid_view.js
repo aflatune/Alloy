@@ -54,6 +54,7 @@ Alloy.UI.GridView = new JS.Class({
       separatorStyle: Titanium.UI.iPhone.TableViewSeparatorStyle.NONE,
       allowsSelection: false
     });
+    this.tableData = [];
   },
   
   render: function(params) {
@@ -71,12 +72,12 @@ Alloy.UI.GridView = new JS.Class({
     return width;
   },
   
-  setData: function(gridViewItems) {
+  setData: function(gridViewItems, params) {
     this.gridViewItems = gridViewItems;
-    this.refresh();
+    this.refresh(params);
   },
   
-  refresh: function() {
+  refresh: function(params) {
     if (this._refreshing)
       return;
 
@@ -116,7 +117,7 @@ Alloy.UI.GridView = new JS.Class({
       itemsInCurrentRow = (itemsInCurrentRow + 1) % itemsPerRow;
     }
     
-    this.view.setData(this.tableData);    
+    this.view.setData(this.tableData, params);    
     this._refreshing = false;
   },
    

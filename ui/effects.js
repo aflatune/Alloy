@@ -1,4 +1,20 @@
 Alloy.UI.Effects = {
+  fadeOut: function(view, duration) {
+    var a = new Animation();
+    a.opacity = 0;
+    if (duration)
+      a.duration = duration;
+    view.animate(a);
+  },
+  
+  fadeIn: function(view, duration) {
+    var a = new Animation();
+    a.opacity = 1;
+    if (duration)
+      a.duration = duration;
+    view.animate(a);
+  },
+
   bump: function(view) {
     var t = Ti.UI.create2DMatrix().scale(1.3);
     view.transform = t;
