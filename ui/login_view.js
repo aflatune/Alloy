@@ -4,6 +4,7 @@ var used = [Ti.UI.createButton, Ti.UI.createView, Ti.UI.createLabel, Ti.UI.creat
 
 Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
   config: {
+    loginButtonTitle: 'login',
     color: '#fff',
     signupText: 'Not a member? Join for free.',
     barColor: '#000',
@@ -68,7 +69,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     var cancelButton = new Alloy.ImageButton({title: 'Cancel'});
     this.window.leftNavButton = cancelButton;
 
-    var loginButton = new Alloy.ImageButton({className: 'blueButton', title : 'Login'});
+    var loginButton = new Alloy.ImageButton({className: 'blueButton', title : this.config.loginButtonTitle});
     this.rightNavButton = loginButton;
     
     this.window.rightNavButton = loginButton;
