@@ -81,11 +81,13 @@ v.open();
   },
 
   analyticsPageUrl: function() {
-    return (this.name || '(anonymous)');
+    return this.name;
   },
   
   trackViewShowEvent: function() {
-    Alloy.analytics.trackPageview('/' + this.analyticsPageUrl());
+    var trackingUrl = this.analyticsPageUrl();
+    if (trackingUrl && trackingUrl.length > 0)
+      Alloy.analytics.trackPageview('/' + trackingUrl);
   },
   
   render: function() {
