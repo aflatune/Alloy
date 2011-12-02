@@ -14,6 +14,10 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
     });
   },
   
+  doFetch: function(async) {
+    this.viewModel.fetch({type: 'reload', async: async});
+  },
+  
   skipRender: function() {
     if (this.loginMessage) {
       this.view.remove(this.loginMessage);
@@ -24,14 +28,14 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
       if(this.forCurrentUser) {
         if (this.user && App.currentUser && this.user.username == App.currentUser.username) {
           if (this.viewModel) {
-            this.viewModel.fetch({type: 'reload', async:true});
+            this.doFetch(true);
             return true;
           }
         }
       }
       else {
         if (this.viewModel)
-          this.viewModel.fetch({type: 'reload'});
+          this.doFetch(false);
         return true;
       }
 
