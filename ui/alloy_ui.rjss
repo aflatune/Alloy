@@ -139,7 +139,9 @@ ImageButton {
 }
 
 .layoutTableRow {
-  height: 'auto'
+  height: 'auto',
+  allowsSelection: false,
+  selectionStyle: Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE
 }
 
 .balloon_left {
