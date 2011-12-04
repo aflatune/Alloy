@@ -14,15 +14,25 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
     var backdropHeight = params.height || 100;
     var backdropWidth = params.width || 200;
     
-    var backdrop = new View('loadingViewBackground');
+    var backdrop = new View('loadingViewContainer');
     backdrop.left = Ti.Platform.displayCaps.platformWidth / 2 - backdropWidth / 2;
     backdrop.width = backdropWidth;;
-    backdrop.top = Ti.Platform.displayCaps.platformHeight / 2 - backdropHeight / 2;
+    backdrop.top = Ti.Platform.displayCaps.platformHeight / 2 - backdropHeight / 2 - 25;
     backdrop.height = backdropHeight;
+
+    // Background
+    var background = new View('loadingViewBackground');
+    backdrop.add(background);
     
+    // Loader animation
+    var loaderContainer = new View('loadingViewLoaderContainer');
     var loader = new ActivityIndicator('loadingViewActivityIndicator');
-    
-    backdrop.add(loader);
+    loaderContainer.add(loader);
+    backdrop.add(loaderContainer);
+
+    // Message
+    this.messageLabel = new Label('loadingViewMessageLabel');
+    backdrop.add(this.messageLabel);
     
     this.view.add(backdrop);
     //this.view.add(loader);
@@ -30,7 +40,7 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
     var _this = this;
     
     this.showCount = 0;
-    Ti.App.addEventListener('app:show.loader', function() {
+    Ti.App.addEventListener('app:show:loader', function() {
       _this.showCount++;
       
       if (_this.showCount == 1 && !_this.view.visible) {
@@ -45,7 +55,7 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
         var a = Ti.UI.createAnimation();
 
         a.transform = t2;
-        a.opacity = 0.9;
+        a.opacity = 1;
         a.duration = 200;
 
         backdrop.animate(a);
@@ -64,7 +74,7 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
       _this.view.visible = false;
     });
     
-    Ti.App.addEventListener('app:hide.loader', function() {
+    Ti.App.addEventListener('app:hide:loader', function() {
       _this.showCount--;
       if (_this.showCount < 0) _this.showCount = 0;
       
@@ -72,5 +82,13 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
         backdrop.animate(a3);          
       }
     });
+
+    Ti.App.addEventListener('app:loader:setMessage', function(params) {
+      _this.setMessage(params.message);
+    });
+  },
+  
+  setMessage: function(message) {
+    this.messageLabel.text = message;
   }
 });

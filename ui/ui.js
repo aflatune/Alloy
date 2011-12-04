@@ -7,6 +7,7 @@ Ti.include('table_view_delete_row.js');
 Ti.include('cached_image_view.js');
 Ti.include('image_button_bar.js');
 Ti.include('loading_view.js');
+Ti.include('notification_view.js');
 Ti.include('login_view.js');
 Ti.include('picker_view.js');
 Ti.include('grid_view.js');

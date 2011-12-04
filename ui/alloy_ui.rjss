@@ -217,15 +217,70 @@ ImageButton {
 /* -------------------------------- */
 /* Loading View                     */
 /* -------------------------------- */ 
+.loadingViewContainer {
+  borderRadius: 10,
+  borderWidth: 0,
+  borderColor: '#777'
+}
+
 .loadingViewBackground {
   backgroundColor:'#000',
-  opacity:0.8,
-  borderRadius: 20,
-  borderWidth: 10,
-  borderColor: '#777'
+  opacity:0.8
+}
+
+.loadingViewLoaderContainer {
+  height: 50,
+  top: 10
 }
 
 .loadingViewActivityIndicator {
   style: 0,
-  width: 'auto'
+  width: 'auto',
+  top: 0
+}
+
+.loadingViewMessageLabel {
+  left: 10,
+  right: 10,
+  top: 50,
+  bottom: 0,
+  font: {fontWeight: 'bold', fontSize: rjss.vars.fontSizeLarge},
+  text: 'Sending a poke',
+  textAlign: 'center',
+  color: '#fff'
+}
+
+/* -------------------------------- */
+/* Notification View                */
+/* -------------------------------- */ 
+.notificationViewContainer {
+  borderRadius: 10,
+  borderWidth: 0,
+  borderColor: '#777'
+}
+
+.notificationViewBackground {
+  backgroundColor:'#000',
+  opacity:0.8
+}
+
+.notificationViewIconContainer {
+  height: 40,
+  top: 10
+}
+
+.notificationViewIcon {
+  width: 32,
+  height: 32
+}
+
+.notificationViewMessageLabel {
+  left: 10,
+  right: 10,
+  top: 45,
+  bottom: 0,
+  font: {fontWeight: 'bold', fontSize: rjss.vars.fontSizeLarge},
+  text: 'Sending a poke',
+  textAlign: 'center',
+  color: '#fff'
 }

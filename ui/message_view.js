@@ -9,7 +9,8 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     
     Color: {
       White: 'grey',
-      Blue: 'blue'
+      Blue: 'blue',
+      Pink: 'pink'
     }
   },
   
@@ -41,7 +42,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     this.textbox = textbox;
     textbox.addEventListener('focus', function(e) {
       var a = new Animation();
-      a.bottom = 166;
+      a.bottom = 216;
       a.duration = 400;
       _this.view.animate(a);
       _this.scrollToIndex(_this.rowCount - 1);
@@ -64,7 +65,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     this.view.add(controls);
     
     // Dismiss keyboard when clicked elsewhere
-    layoutTable.addEventListener('click', function() {
+    layoutTable.addEventListener('singletap', function() {
       textbox.blur();
     })
   },

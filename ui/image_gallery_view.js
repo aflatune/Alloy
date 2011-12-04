@@ -12,7 +12,7 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
       return;
     this.callSuper();
 
-    var bottomHeight = 30;
+    var bottomHeight = 0;
 
     if (params.clickToFullScreen) {
       var bgImage = new Label({backgroundImage: '/lib/alloy/UI/images/gallery/picture_background_gradient.png'});

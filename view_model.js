@@ -105,7 +105,7 @@ v.open();
       return;
     
     var url = this.url(params);
-    //info(url);
+    info("Fetching " + url);
     
     if (typeof(params) == 'undefined') params = {};
     Alloy.analytics.trackEvent('alloy:view_model:' + this.name, 'fetch', url);
@@ -166,7 +166,7 @@ v.open();
       Alloy.analytics.trackEvent('alloy:view_model:' + _this.name, 'success', url);
 
       if (!params.async)
-        Ti.App.fireEvent('app:hide.loader');
+        Ti.App.fireEvent('app:hide:loader');
 
       //if(this.status >= 400) {
       //  this.onerror();
@@ -202,12 +202,15 @@ v.open();
       Alloy.analytics.trackEvent('alloy:view_model:' + _this.name, 'error', url);
       _this.onError(this, params);
       if (!params.async)
-        Ti.App.fireEvent('app:hide.loader');
+        Ti.App.fireEvent('app:hide:loader');
       _this.currentRequest = null;
     }
     
-    if (!params.async)
-      Ti.App.fireEvent('app:show.loader');
+    if (!params.async) {
+      if (params.message)
+        Ti.App.fireEvent('app:loader:setMessage', {message: params.message});
+      Ti.App.fireEvent('app:show:loader');
+    }
     
     this.sendRequest(xhr, params);
   },
