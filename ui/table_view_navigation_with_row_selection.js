@@ -1,6 +1,5 @@
 Alloy.UI.enableTableViewNavigationWithRowSelection = function(tableView, ownerWindow) {
   Alloy.UI.enableRowSelectionEvents(tableView);
-  Alloy.UI.adjustColorsOnRowSelection(tableView, '#fff'); 
   
   ownerWindow.addEventListener('focus', function() {
     if (tableView && typeof(tableView.selectedRowIndex) != 'undefined') {

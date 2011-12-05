@@ -1,5 +1,6 @@
 Alloy.UI = {};
 Ti.include('effects.js');
+Ti.include('acts_like_button.js');
 Ti.include('form_builder.js');
 Ti.include('table_view_pull_to_refresh.js');
 Ti.include('table_view_dynamic_scroll.js');
@@ -93,52 +94,3 @@ Alloy.UI.enableRowSelectionEvents = function(tableView) {
   }
 }
 
-Alloy.UI.setColorRecursive = function(control, c) {
-  if (!control.originalColor) {
-    control.originalColor = control.color || '#fff';
-    if (control.text)
-      control.color = c;
-    if (control.children) {
-      for (var childIndex in control.children) {
-        var child = control.children[childIndex];
-        Alloy.UI.setColorRecursive(child, c);
-      }
-    }
-  }
-}
-
-Alloy.UI.resetColorRecursive = function(control) {
-  if (control.originalColor) {
-    if (control.color)
-      control.color = control.originalColor;
-      
-    control.originalColor = null;      
-    if (control.children) {
-      for (var child in control.children) {
-        Alloy.UI.resetColorRecursive(control.children[child]);
-      }
-    }
-  }
-}  
-
-Alloy.UI.adjustColorsOnRowSelection = function(tableView, color) {
-  tableView.addEventListener('touchstart', function(e) {
-    if (tableView.allowSelection != false && e.row.allowsSelection != false)
-      Alloy.UI.setColorRecursive(e.row, color);
-  });
-
-  tableView.addEventListener('touchcancel', function(e) {
-    if (tableView.allowSelection != false && e.row.allowsSelection != false)
-      Alloy.UI.resetColorRecursive(e.row);
-  });
-    
-  tableView.addEventListener('rowSelected', function(e) {
-    if (tableView.allowSelection != false && e.row.allowsSelection != false)
-      Alloy.UI.setColorRecursive(e.row, color);
-  });
-
-  tableView.addEventListener('rowDeselected', function(e) {
-    if (tableView.allowSelection != false && e.row.allowsSelection != false)
-      Alloy.UI.resetColorRecursive(e.row);
-  });
-}

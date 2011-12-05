@@ -25,21 +25,6 @@ Alloy.UI.GridViewItem = new JS.Class({
       height: this.height,
       width: this.width
     });
-    
-    var _this = this;
-    this.view.addEventListener('touchstart', function(e) {
-      Alloy.UI.setColorRecursive(_this.view, '#fff');
-    });
-  
-    this.view.addEventListener('touchcancel', function(e) {
-      Alloy.UI.resetColorRecursive(_this.view);
-    });
-    
-    this.view.addEventListener('touchend', function(e) {
-      setTimeout(function() {
-        Alloy.UI.resetColorRecursive(_this.view);
-      }, 2000);
-    });
   }
 });
 
