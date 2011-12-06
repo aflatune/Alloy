@@ -1,4 +1,4 @@
-Alloy.UI.actsLikeButton = function(control) {
+Alloy.UI.actsLikeButton = function(control, toggleButton) {
   var feather = 40;
 
   function eventInfo(e) {
@@ -59,7 +59,8 @@ Alloy.UI.actsLikeButton = function(control) {
     }
 
     e.source.down = false;
-    e.source.fireEvent('up');
+    if(!toggleButton)
+      e.source.fireEvent('up');
   })
 
   // touch cancel

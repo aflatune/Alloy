@@ -15,7 +15,7 @@ Alloy.ImageButton = function(params) {
 
   // timeout to allow children to be added to the button before wring up events
   setTimeout(function() {
-    Alloy.UI.actsLikeButton(button);  
+    Alloy.UI.actsLikeButton(button, params.toggleButton);  
   }, 1);
   
   return button;
