@@ -15,7 +15,8 @@ Alloy.UI.WebView = new JS.Class(Alloy.View, {
     
     // Webview
     var webView = new WebView({url: url});
-    webView.scalesPageToFit = true;
+    webView.scalesPageToFit = false;
+    this.webView = webView;
     this.view.add(webView);
   }
 })
