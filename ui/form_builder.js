@@ -11,7 +11,7 @@ Alloy.UI.FormBuilder = new JS.Class({
   createRow : function() {
     this.rowCount++;
     var row = new TableViewRow('formBuilderTableRow');
-    
+    row.index = this.rowCount - 1;
     return row;
   },
 
