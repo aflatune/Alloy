@@ -19,6 +19,7 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
     backdrop.width = backdropWidth;;
     backdrop.top = Ti.Platform.displayCaps.platformHeight / 2 - backdropHeight / 2 - 25;
     backdrop.height = backdropHeight;
+    backdrop.opacity = 0;
 
     // Background
     var background = new View('loadingViewBackground');
