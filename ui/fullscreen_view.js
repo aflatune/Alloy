@@ -7,7 +7,7 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
     var _this = this;
     
     this.callSuper();
-    this.window.backgroundColor = '#fff';
+    this.window.backgroundColor = '#000';
 
     // Toolbar
     var items = [];
