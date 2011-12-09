@@ -245,7 +245,7 @@ ImageButton {
   top: 50,
   bottom: 0,
   font: {fontWeight: 'bold', fontSize: rjss.vars.fontSizeLarge},
-  text: 'Sending a poke',
+  text: 'Loading...',
   textAlign: 'center',
   color: '#fff'
 }
@@ -280,7 +280,7 @@ ImageButton {
   top: 45,
   bottom: 0,
   font: {fontWeight: 'bold', fontSize: rjss.vars.fontSizeLarge},
-  text: 'Sending a poke',
+  text: 'Done!',
   textAlign: 'center',
   color: '#fff'
 }
