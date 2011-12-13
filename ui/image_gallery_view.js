@@ -35,7 +35,7 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
       var container = new ScrollView({maxZoomScale: (params.clickToFullScreen ? 1 : 3), top: (params.clickToFullScreen ? 20 : 0), bottom: 10});
       var imageView = new ImageView({image: image.photo_url, 
         opacity: 1.0, 
-        defaultImage: '/public/images/nophoto_thumb.png', 
+        defaultImage: '/public/images/home/nophoto_thumb.png', 
         preventDefaultImage: false});
       container.add(imageView);
       imageViews.push(imageView);
@@ -43,7 +43,7 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
       if (params.clickToFullScreen) {
         imageView.top = 0;
         imageView.bottom = bottomHeight;
-        var reflection = new ImageView({image: image.photo_url, top: 0, bottom: bottomHeight, opacity: 0.2, defaultImage: '/public/images/nophoto_thumb.png', preventDefaultImage: false});
+        var reflection = new ImageView({image: image.photo_url, top: 0, bottom: bottomHeight, opacity: 0.2, defaultImage: '/public/images/home/nophoto_thumb.png', preventDefaultImage: false});
         reflection.transform = Ti.UI.create2DMatrix().scale(1, -1).translate(0, - this.view.height + bottomHeight + 40);
 
         container.add(reflection);
