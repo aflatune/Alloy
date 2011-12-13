@@ -205,6 +205,13 @@ ImageButton {
   suppressReturn: false
 }
 
+.messageViewTextboxSizer {
+  top: 0,
+  height: 'auto',
+  width: 226,
+  opacity: 0
+}
+
 .messageViewSendButton {
   backgroundImage:'/lib/alloy/ui/images/MessageEntrySendButton.png',
   backgroundImagePressed:'/lib/alloy/ui/images/MessageEntrySendButtonPressed.png',

@@ -23,7 +23,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     this.rowCount = 0;
     var layoutTableContainer = new View();
     var layoutTable = new TableView('layoutTable');
-    layoutTableContainer.bottom = 80;
+    layoutTableContainer.bottom = 40;
     layoutTableContainer.add(layoutTable);
      
     this.messagesTable = layoutTable;
@@ -31,6 +31,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
   
     // Controls toolbar
     var controls = new View('messageViewControls');
+    this.controls = controls;
     var controlsBG = new Label('messageViewControlsBG');
     controls.add(controlsBG);
     controls.bottom = 0;
@@ -38,6 +39,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     var _this = this;
     // Textbox
     var textboxContainer = new Label('messageViewTextboxContainer');
+    this.textboxContainer = textboxContainer;
     var textbox = new TextArea('messageViewTextbox');
     this.textbox = textbox;
     textbox.addEventListener('focus', function(e) {
@@ -56,24 +58,24 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     });
     controls.add(textboxContainer);
     controls.add(textbox);
+    this.textbox = textbox;
 
-    var textboxSizer = new Label('messageViewTextbox');
-    textboxSizer.top = 0;
-    textboxSizer.height = 'auto';
-    textboxSizer.width = 242 - 16;
-    textboxSizer.opacity = 0;
+    var textboxSizer = new Label('messageViewTextboxSizer');
+    this.textboxSizer = textboxSizer;
     this.view.add(textboxSizer);
     textbox.addEventListener('change', function(e){
       textboxSizer.text = e.value;
       setTimeout(function() {
         info("textboxSizer.height " + textboxSizer.height);
         var h = textboxSizer.height;
-        if (h < 18) h = 18;
+        if (h < 4) h = 4;
         if (h > 54) h = 54;
         
         h += 36;
-        if (controls.height != h)
+        if (controls.height != h) {
           controls.height = h;
+          layoutTableContainer.bottom = h;
+        }
       }, 1);
     })
 
@@ -116,9 +118,8 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
       balloon.font = {fontSize: rjss.vars.fontLarge, fontWeight: 'bold'};
       
     container.add(balloon);
-    if (this.batchAddInProgress)
-      this.tableData.push(row);
-    else
+    this.tableData.push(row);
+    if (!this.batchAddInProgress)
       this.messagesTable.appendRow(row);
     
     return this.rowCount++;
