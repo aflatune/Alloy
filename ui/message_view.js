@@ -56,7 +56,27 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     });
     controls.add(textboxContainer);
     controls.add(textbox);
-    
+
+    var textboxSizer = new Label('messageViewTextbox');
+    textboxSizer.top = 0;
+    textboxSizer.height = 'auto';
+    textboxSizer.width = 242 - 16;
+    textboxSizer.opacity = 0;
+    this.view.add(textboxSizer);
+    textbox.addEventListener('change', function(e){
+      textboxSizer.text = e.value;
+      setTimeout(function() {
+        info("textboxSizer.height " + textboxSizer.height);
+        var h = textboxSizer.height;
+        if (h < 18) h = 18;
+        if (h > 54) h = 54;
+        
+        h += 36;
+        if (controls.height != h)
+          controls.height = h;
+      }, 1);
+    })
+
     // Button
     var sendButton = new Alloy.ImageButton({className: 'messageViewSendButton', title: 'Send'});
     this.sendButton = sendButton;
