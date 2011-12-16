@@ -55,7 +55,10 @@ Alloy.UI.actsLikeButton = function(control, toggleButton) {
     eventInfo(e);
     e.source.touching = false;
     if (withinBounds(e)) {
-      e.source.fireEvent('press');
+      if (!e.source.lastPressTime || (new Date() - e.source.lastPressTime) > 3000) {
+        e.source.fireEvent('press');
+        e.source.lastPressTime = new Date();
+      }
     }
 
     e.source.down = false;
