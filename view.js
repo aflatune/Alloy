@@ -143,7 +143,7 @@ v.open();
           this.nav.open(this.window, params);
         }
         
-        if (!params.leftNavButtonTitle) {
+        if (!params.leftNavButtonTitle || params.leftNavButtonTitle.length > 12) {
           params.leftNavButtonTitle = 'Back';
         }
       }
