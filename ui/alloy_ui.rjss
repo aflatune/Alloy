@@ -59,6 +59,10 @@ ImageButton {
   color: '#000'
 }
 
+.formBuilderButton {
+  height: 50
+}
+
 .formBuilderSplitRowLeftControl {
   font: {fontWeight: 'bold'},
   top : 0,

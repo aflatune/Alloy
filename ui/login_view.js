@@ -47,11 +47,31 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     passwordTextField.color = this.config.color;
     this.passwordTextField = passwordTextField;
 
+    var loginButton = this.formBuilder.createButton(this.config.loginButtonTitle, 'formLoginButton');
+    loginButton.addEventListener('click', function(e) {
+      // Login button
+      var email = emailTextField.value.trim();
+      var password = passwordTextField.value.trim();
+      
+      if (!_this.config.emailTextField.validate(email)) {
+        emailTextField.focus();
+        return;
+      }
+
+      if (password.length < 5) {
+        Alloy.UI.alert("Your password should be a bit longer.", "Wait!");
+        passwordTextField.focus();
+        return;
+      }
+
+      Ti.App.fireEvent('app:login', {email: email, password: password});
+    });
+    
     // Bottom section
     if (this.config.signupText) {
       this.formBuilder.startNewSection();
-      var joinButton = this.formBuilder.createButton(this.config.signupText, this.config.color, this.config.backgroundColor);
-      joinButton.color = this.config.color;
+      this.formBuilder.startNewSection();
+      var joinButton = this.formBuilder.createButton(this.config.signupText, 'formSignupButton');
       if (_this.config.signupUrl) {
         joinButton.addEventListener('click', function() {
           Alloy.UI.WebView.show(_this.config.signupUrl);
@@ -67,11 +87,6 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     // Nav bar buttons
     var cancelButton = new Alloy.ImageButton({title: 'Cancel'});
     this.window.leftNavButton = cancelButton;
-
-    var loginButton = new Alloy.ImageButton({className: 'blueButton', title : this.config.loginButtonTitle});
-    this.rightNavButton = loginButton;
-    
-    this.window.rightNavButton = loginButton;
     
     // Toolbar
     /*var flexSpace = Titanium.UI.createButton({
@@ -96,24 +111,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
       //  return;
       
       //this.toolbarButtonEventsAttached = true;  
-      loginButton.addEventListener('press', function(e) {
-        // Login button
-        var email = emailTextField.value.trim();
-        var password = passwordTextField.value.trim();
-        
-        if (!_this.config.emailTextField.validate(email)) {
-          emailTextField.focus();
-          return;
-        }
-  
-        if (password.length < 5) {
-          Alloy.UI.alert("Your password should be a bit longer.", "Wait!");
-          passwordTextField.focus();
-          return;
-        }
-  
-        Ti.App.fireEvent('app:login', {email: email, password: password});
-      })
+
 
       cancelButton.addEventListener('press', function(e) {
         Ti.App.fireEvent('app:login:dismiss');

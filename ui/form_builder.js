@@ -24,18 +24,22 @@ Alloy.UI.FormBuilder = new JS.Class({
     return this.tableView;
   },
 
-  createButton : function(title, color, backgroundColor) {
+  createButton : function(title, className) {
+    this.startNewSection();
     var row = this.createRow();
-    if (backgroundColor)
-      row.backgroundColor = backgroundColor;
-    row.add(new Label({
-      className: 'formBuilderControl formBuilderButtonLabel',
-      text: title, 
-      color: color || '#000'
-    }));
+    row.backgroundColor = 'transparent';
+    row.backgroundImage = '';
+    row.selectionStyle = Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE;
+    var button = new Alloy.ImageButton({
+      title: title,
+      width: '100%',
+      className: 'formBuilderButton ' + className
+    });
+    
+    row.add(button);
     this.currentSection().add(row);
     
-    return row;
+    return button;
   },
   
   createLabel: function(text) {
