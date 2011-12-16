@@ -73,6 +73,7 @@ Alloy.UI.LoadingView = new JS.Class(Alloy.View, {
     a3.addEventListener('complete',function() {
       loader.hide();
       _this.view.visible = false;
+      _this.setMessage('Loading...');
     });
     
     Ti.App.addEventListener('app:hide:loader', function() {
