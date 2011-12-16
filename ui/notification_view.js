@@ -10,7 +10,7 @@ Alloy.UI.NotificationView = new JS.Class(Alloy.View, {
   
   render: function(params) {
     params = params || {};
-    params.image = params.image || '/lib/alloy/UI/images/check.png';
+    params.image = params.image || '/lib/alloy/ui/images/check.png';
     params.message = params.message || 'Done!';
     params.duration = params.duration || 2000;
     this.duration = params.duration;
