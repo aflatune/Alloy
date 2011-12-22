@@ -52,7 +52,10 @@ Alloy.UI.ViewRequiresAuthentication = new JS.Module({
       else {
         info ("NO USER!! SHOULD SEE BLANK WINDOW.");
         var message = new Label('profileWindowProfilePrivate');
-        message.text = "Please sign in";
+        message.text = this.placeholderText || "Please sign in";
+        this.addEventListener(message, 'click',function(e) {
+          Ti.App.fireEvent('app:login:show');
+        });
         this.view.add(message);
         this.loginMessage = message;
         
