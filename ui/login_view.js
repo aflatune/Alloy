@@ -47,7 +47,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     passwordTextField.color = this.config.color;
     this.passwordTextField = passwordTextField;
 
-    var loginButton = this.formBuilder.createButton(this.config.loginButtonTitle, 'formLoginButton');
+    var loginButton = this.formBuilder.createButton(this.config.loginButtonTitle, 'blueFormButton');
     loginButton.addEventListener('click', function(e) {
       // Login button
       var email = emailTextField.value.trim();
@@ -71,7 +71,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
     if (this.config.signupText) {
       this.formBuilder.startNewSection();
       this.formBuilder.startNewSection();
-      var joinButton = this.formBuilder.createButton(this.config.signupText, 'formSignupButton');
+      var joinButton = this.formBuilder.createButton(this.config.signupText, 'signupFormButton');
       if (_this.config.signupUrl) {
         joinButton.addEventListener('click', function() {
           Alloy.UI.WebView.show(_this.config.signupUrl);
@@ -131,7 +131,7 @@ Alloy.UI.LoginView = new JS.Singleton(Alloy.View, {
 
     // Show error on login failure    
     Ti.App.addEventListener('app:login:failed', function(e) {
-      alert("Sorry, try again");
+      Alloy.UI.alert("Oops, that didn't work. Let's try again.", "Can't sign in");
     });
   },
 

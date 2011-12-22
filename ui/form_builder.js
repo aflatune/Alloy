@@ -12,6 +12,7 @@ Alloy.UI.FormBuilder = new JS.Class({
     this.rowCount++;
     var row = new TableViewRow('formBuilderTableRow');
     row.index = this.rowCount - 1;
+    this.currentRow = row;
     return row;
   },
 
@@ -27,6 +28,7 @@ Alloy.UI.FormBuilder = new JS.Class({
   createButton : function(title, className) {
     this.startNewSection();
     var row = this.createRow();
+    row.className = 'formBuilderButtonRow';
     row.backgroundColor = 'transparent';
     row.backgroundImage = '';
     row.selectionStyle = Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE;
