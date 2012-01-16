@@ -12,7 +12,7 @@ Alloy.UI.NotificationView = new JS.Class(Alloy.View, {
     params = params || {};
     params.image = params.image || '/lib/alloy/ui/images/check.png';
     params.message = params.message || 'Done!';
-    params.duration = params.duration || 2000;
+    params.duration = params.duration || 1000;
     this.duration = params.duration;
     
     var backdropHeight = params.height || 88;

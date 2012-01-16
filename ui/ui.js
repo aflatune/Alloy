@@ -88,7 +88,7 @@ Alloy.UI.enableRowSelectionEvents = function(tableView) {
       if (e.row.selectionStyle != Titanium.UI.iPhone.TableViewCellSelectionStyle.NONE) {
         tableView.selectedRowIndex = e.index;
         tableView.selectedRow = e.row;
-        tableView.fireEvent('rowSelected', {index: tableView.selectedRowIndex, row: tableView.selectedRow});
+        tableView.fireEvent('rowSelected', e);
       }
     });
   }
