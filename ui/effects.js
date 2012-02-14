@@ -1,17 +1,24 @@
 Alloy.UI.Effects = {
-  fadeOut: function(view, duration) {
+  fadeOut: function(view, duration, onComplete) {
     var a = new Animation();
     a.opacity = 0;
+    a.curve = Titanium.UI.iOS.ANIMATION_CURVE_EASE_IN_OUT;
+    
     if (duration)
       a.duration = duration;
+    if (onComplete)
+      a.addEventListener('complete', onComplete);
     view.animate(a);
   },
   
-  fadeIn: function(view, duration) {
+  fadeIn: function(view, duration, onComplete) {
     var a = new Animation();
     a.opacity = 1;
+    a.curve = Titanium.UI.iOS.ANIMATION_CURVE_EASE_IN_OUT;
     if (duration)
       a.duration = duration;
+    if (onComplete)
+      a.addEventListener('complete', onComplete);
     view.animate(a);
   },
 
