@@ -55,7 +55,7 @@ if (!Alloy.analytics)
 
 
 // MVVM pattern
-include('model.js');
+//include('model.js');
 include('database.js');
 include('view.js');
 include('view_model.js');
