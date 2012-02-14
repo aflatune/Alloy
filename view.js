@@ -62,6 +62,7 @@ v.open();
   */ 
   initialize: function(partial) {
     this.view = new View();
+    this.renderedAt = 0;
     
     if (!partial) {
       this.window = Ti.UI.createWindow();
@@ -92,6 +93,31 @@ v.open();
   
   render: function() {
     this.rendered = true;
+    var currentTime = new Date();
+    if (currentTime - this.renderedAt < 3000)
+      return false;
+      
+    this.renderedAt = new Date();
+    
+    var _this = this;
+    setTimeout(function() {
+      _this.afterRender();      
+    },1);
+    return true;
+  },
+  
+  afterRender: function() {
+    
+  },
+  
+  setTitle: function(title) {
+    if (AlloyConfig && AlloyConfig.view && AlloyConfig.view.customWindowTitle) {
+      this.window.title = title;
+      this.window.titleControl = new Label({className: 'customWindowTitle', text: title});
+    }
+    else {
+      this.window.title = title;
+    }
   },
   
   open: function(params) {
@@ -272,5 +298,23 @@ v.open();
       this.view = new View();
       this.window.add(this.view);
     }
+  },
+  
+  showInlineError: function(message) {
+    if (!this.errorMessage) {
+      this.errorMessage = new Label('inlineError');
+    }
+    this.window.add(this.errorMessage);
+    this.errorMessage.text = message;
+    this.view.hide();
+  },
+  
+  hideInlineError: function() {
+    this.view.show();
+    if (this.errorMessage) {
+      this.window.remove(this.errorMessage);
+    }
+    this.errorMessage.text = '';
   }
+
 });
