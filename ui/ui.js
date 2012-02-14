@@ -92,5 +92,11 @@ Alloy.UI.enableRowSelectionEvents = function(tableView) {
       }
     });
   }
+  
+  tableView.deselect = function() {
+    this.deselectRow(this.selectedRowIndex);
+    this.fireEvent('rowDeselected', {index: this.selectedRowIndex, row: this.selectedRow});
+    this.selectedRowIndex = null;
+  }
 }
 

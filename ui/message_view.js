@@ -23,6 +23,8 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
     this.rowCount = 0;
     var layoutTableContainer = new View();
     var layoutTable = new TableView('layoutTable');
+    //layoutTable.backgroundImage = '/public/images/app/classy_fabric.png';
+    
     layoutTableContainer.bottom = 40;
     layoutTableContainer.add(layoutTable);
      
@@ -146,7 +148,7 @@ Alloy.UI.MessageView = new JS.Class(Alloy.View, {
   scrollToIndex: function(index) {
     if (index == -1) index = this.rowCount - 1;
     
-    this.messagesTable.scrollToIndex(index);
+    this.messagesTable.scrollToIndex(index, {animated: false});
     this.messagesTable.bottom = this.messagesTable.bottom;
   }
 })
