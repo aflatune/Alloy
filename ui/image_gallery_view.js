@@ -61,7 +61,8 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
       bottom: 10,
       right: 0,
       pagingControlColor: '#000',
-      cacheSize: 11
+      cacheSize: 5,
+      currentPage: selected
     });
     this.scrollableView = scrollableView;
     
@@ -71,16 +72,8 @@ Alloy.UI.ImageGalleryView = new JS.Class(Alloy.View, {
         _this.parentImageGallery.scrollableView.scrollToView(_this.currentPage);
       }
     }); 
-    
-    if (selected) {
-      info("SELECTING " + selected);
-      setTimeout(function() {
-        scrollableView.scrollToView(selected);  
-      }, 1);
-    }
         
     this.view.add(scrollableView);
-
 
     if (params.clickToFullScreen) {
       this.addEventListener(this.view, 'doubletap', function() {
