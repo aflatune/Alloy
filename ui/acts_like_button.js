@@ -6,7 +6,7 @@ Alloy.UI.actsLikeButton = function(control, toggleButton) {
   }
 
   function withinBounds(e) {
-    return e.x > -feather && e.x < feather + e.source.width && e.y > -feather && e.y < feather + e.source.height;
+    return e.x > -feather && e.x < feather + e.source.size.width && e.y > -feather && e.y < feather + e.source.size.height;
   } 
   
   function recursiveChildVisitor(control, action) {
