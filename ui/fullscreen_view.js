@@ -8,9 +8,25 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
     
     this.callSuper();
     this.window.backgroundColor = '#000';
+    this.window.barColor = 'transparent';
+    this.window.navBarHidden = true;
 
+    var closeButton = new Alloy.ImageButton({
+      backgroundImage:'/public/images/profile/close.png',
+      backgroundImageDown:'/public/images/profile/close-pressed.png',
+      height: 40,
+      width: 40,
+      left: 4,
+      top: 4,
+      zIndex: 1000});
+    this.view.add(closeButton);
+    this.addEventListener(closeButton, 'press', function() {
+      _this.close();
+    });
+    closeButton.hide();
+        
     // Toolbar
-    var items = [];
+    /*var items = [];
 
     var flexSpace = Titanium.UI.createButton({
       systemButton:Titanium.UI.iPhone.SystemButton.FLEXIBLE_SPACE
@@ -33,21 +49,26 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
     var toolbar = new Toolbar({
       items: items,
       top:0,
-      translucent:true,
+      translucent:false,
       barColor: '#000'
     });
 
     toolbar.hide();
     this.window.add(toolbar);
-    this.toolbarHidden = true;
+    this.toolbarHidden = true;*/
     
+    var hidden=true;
     this.addEventListener(this.window, 'click', function() {
-      if (_this.toolbarHidden)
-        toolbar.show();
+      if (!hidden)
+      {
+        closeButton.hide();
+        hidden = true;
+      }
       else
-        toolbar.hide();
-        
-      _this.toolbarHidden = !_this.toolbarHidden;
+      {
+        closeButton.show();
+        hidden = false;
+      }
     })
   },
   
