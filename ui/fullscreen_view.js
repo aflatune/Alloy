@@ -58,7 +58,9 @@ Alloy.UI.FullscreenView = new JS.Class(Alloy.View, {
     this.toolbarHidden = true;*/
     
     var hidden=true;
-    this.addEventListener(this.window, 'click', function() {
+    this.addEventListener(this.window, 'click', function(e) {
+      if (e.source == closeButton)
+        return;
       if (!hidden)
       {
         closeButton.hide();

@@ -15,7 +15,7 @@ Alloy.View = new JS.Class(/** @lends Alloy.View */{
 //-- Contents of Resources/app.js --
 
 // Alloy
-Ti.include('lib/alloy/alloy.js');
+Ti.include ('lib/alloy/alloy.js');
 includeRJSS('lib/alloy/ui/alloy_ui.rjss');
 compileRJSS();
 

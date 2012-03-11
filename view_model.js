@@ -20,7 +20,7 @@ Alloy.ViewModel = new JS.Class(/** @lends Alloy.ViewModel */{
 //-- Contents of Resources/app.js --
 
 // Alloy
-Ti.include('lib/alloy/alloy.js');
+Ti.include ('lib/alloy/alloy.js');
 includeRJSS('lib/alloy/ui/alloy_ui.rjss');
 
 // App
