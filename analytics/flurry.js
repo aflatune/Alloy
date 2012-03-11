@@ -1,4 +1,4 @@
-Alloy.analytics = new JS.Singleton(Alloy.AnalyticsBase, {
+Alloy.analyticsFlurry = new JS.Singleton(Alloy.AnalyticsBase, {
   initialize: function() {
     // requires ti.flurry module
     this.analytics = require("ti.flurry");    

@@ -43,12 +43,15 @@ include('util/util.js');
 
 // Analytics
 include('analytics/analytics.js');
-if (AlloyConfig && AlloyConfig.analytics) {
+//include('analytics/google.js');
+//include('analytics/flurry.js');
+
+/*if (AlloyConfig && AlloyConfig.analytics) {
   if (AlloyConfig.analytics.provider == 'google')
-    include('analytics/google.js');
+    Alloy.analytics = Alloy.analyticsGoogle;
   else if (AlloyConfig.analytics.provider == 'flurry')
-    include('analytics/flurry.js');
-}
+    Alloy.analytics = Alloy.analyticsFlurry;
+}*/
 
 if (!Alloy.analytics)
   Alloy.analytics = new JS.Singleton(Alloy.AnalyticsBase, {});

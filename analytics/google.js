@@ -1,5 +1,5 @@
 include('../extern/analytics.js');
-Alloy.analytics = new JS.Singleton(Alloy.AnalyticsBase, {
+Alloy.analyticsGoogle = new JS.Singleton(Alloy.AnalyticsBase, {
   initialize: function() {
     this.analytics = new Analytics(AlloyConfig.analytics.key);
     this.callSuper();
